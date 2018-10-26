@@ -1,4 +1,5 @@
-﻿using MobFix.Repositories;
+using MobFix.Models;
+using MobFix.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,8 @@ namespace MobFix.Controllers
     public class UserController : ApiController
     {
         // GET: api/User
-        public IHttpActionResult GetAllUsers()
+        [HttpGet]
+        public IHttpActionResult AllUsers()
         {
             var userRepo = new UserRepository();
             var userList = userRepo.GetAllUsers();
@@ -36,13 +38,24 @@ namespace MobFix.Controllers
         }
 
         // POST: api/User
-        public void Post([FromBody]string value)
+        public void Post([FromBody]User user)
         {
+            var userRepo = new UserRepository();
+
         }
 
         // PUT: api/User/5
-        public void Put(int id, [FromBody]string value)
+        [HttpPut]
+        public IHttpActionResult UpdateUserStatus([FromBody]User user)
         {
+            var userRepo = new UserRepository();
+            var result = userRepo.UpdateUserStatus(user);
+            if(result <= 0)
+            {
+                return Ok("Error occurred while updating the user status");
+            }
+            return Ok("User Status updated");
+
         }
 
         // DELETE: api/User/5
