@@ -1,4 +1,4 @@
-﻿using MySql.Data.MySqlClient;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -41,7 +41,6 @@ namespace MobFix.Helper
 
         public int ExecuteNonQuery(string query)
         {
-            query = "SELECT COUNT(*) FROM Mobifix_DB.USER_TBL";
             var result = -1;
             try
             {
