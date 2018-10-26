@@ -30,6 +30,12 @@ namespace MobFix.Repositories
             return user;
 
         }
+        
+        public int UpdateUserStatus(User user)
+        {
+            string updateUserInfo = $"UPDATE Mobifix_DB.USER_TBL SET FK_USER_STATUS_CD = '{user.UserStatus}' WHERE LOWER(LOGIN_ID) = '{user.LoginId.ToLowerInvariant()}' ";
+            return mySqlHelper.ExecuteNonQuery(updateUserInfo);
+        }
 
         private IList<User> FillUserModel(DataTable dtUsers)
         {
