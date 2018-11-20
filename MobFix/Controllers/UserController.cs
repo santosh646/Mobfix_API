@@ -1,7 +1,9 @@
-using MobFix.Models;
+﻿using MobFix.Models;
 using MobFix.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -12,8 +14,7 @@ namespace MobFix.Controllers
     public class UserController : ApiController
     {
         // GET: api/User
-        [HttpGet]
-        public IHttpActionResult AllUsers()
+        public IHttpActionResult GetAllUsers()
         {
             var userRepo = new UserRepository();
             var userList = userRepo.GetAllUsers();
@@ -37,29 +38,32 @@ namespace MobFix.Controllers
             return Ok(user);
         }
 
-        // POST: api/User
-        public void Post([FromBody]User user)
+        [HttpPost]
+        public IHttpActionResult InsertUserDetails([FromBody]User user)
         {
             var userRepo = new UserRepository();
-
+            var result = userRepo.InsertUserDetails(user);
+            if (result <= 0)
+            {
+                return Ok("Error occurred while inserting the New User Details");
+            }
+            return Ok("New User Details inserted");
         }
 
-        // PUT: api/User/5
         [HttpPut]
         public IHttpActionResult UpdateUserStatus([FromBody]User user)
         {
             var userRepo = new UserRepository();
             var result = userRepo.UpdateUserStatus(user);
-            if(result <= 0)
+            if (result <= 0)
             {
                 return Ok("Error occurred while updating the user status");
             }
             return Ok("User Status updated");
-
         }
 
-        // DELETE: api/User/5
-        public void Delete(int id)
+        // DELETE: api/User/Delete
+        public void Delete(string Id)
         {
         }
     }

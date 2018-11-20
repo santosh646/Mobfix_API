@@ -1,4 +1,4 @@
-using MySql.Data.MySqlClient;
+﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -10,7 +10,7 @@ namespace MobFix.Helper
 {
     public class MySqlHelper
     {
-
+ 
         string connectionString = "SERVER=ip-160-153-131-201.ip.secureserver.net;DATABASE=Mobifix_DB;UID=MBFXADMIN;PASSWORD=MBFXADMIN@123;SslMode=none";
         public DataTable ExecuteQuery(string query)
         {
@@ -41,6 +41,7 @@ namespace MobFix.Helper
 
         public int ExecuteNonQuery(string query)
         {
+            //query = "SELECT COUNT(*) FROM Mobifix_DB.USER_TBL";
             var result = -1;
             try
             {

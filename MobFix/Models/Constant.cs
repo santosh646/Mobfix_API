@@ -25,7 +25,7 @@ namespace MobFix.Models
 
     }
 
-    public enum UserType
+    public enum OrderStatusDesc
     {
         Admin,
         Vendor,
