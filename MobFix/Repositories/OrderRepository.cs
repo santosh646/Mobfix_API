@@ -11,22 +11,36 @@ namespace MobFix.Repositories
     public class OrderRepository
     {
         MySqlOrderHelper MySqlOrderHelper = new MySqlOrderHelper();
-
+        private object user;
 
         public Order GetOrder(int OrderID, int CustVendorAdminID)
         {
+            //string fetchOrder = $"SELECT * FROM Mobifix_DB.ORDER_TABLE WHERE LOWER ORDER_ID() = '{ OrderID.ToString() }'";
             string fetchOrder = $"SELECT * FROM Mobifix_DB.ORDER_TABLE WHERE LOWER ORDER_ID() = '{ OrderID.ToString() }'";
+
+            var dtResult = MySqlOrderHelper.ExecuteQuery(fetchOrder);
+            var order = FillOrderModel(dtResult);
+            return order.FirstOrDefault<Order>();
+
+        }
+        public Order GetemailOrder(String emailid)
+        {
+           // UPDATE Mobifix_DB.ORDER_TABLE SET FK_NOCONS_CUST_PHONE_ID = '{order.ContactPhoneID}' WHERE LOWER(ORDER_ID) = '{order.OrderID.ToString()}'
+            //string fetchOrder = $"SELECT * FROM Mobifix_DB.ORDER_TABLE WHERE LOWER ORDER_ID() = '{ OrderID.ToString() }'";
+            string fetchOrder = $"SELECT * FROM ORDER_TABLE ot INNER JOIN USER_TBL ut ON ut.CUST_VEND_ADMIN_ID=ot.FK_CUST_VEND_ADMIN_ID WHERE ut.LOGIN_ID='testAdmin1@gmail.com'";
+
             var dtResult = MySqlOrderHelper.ExecuteQuery(fetchOrder);
             var order = FillOrderModel(dtResult);
             return order.FirstOrDefault<Order>();
 
         }
 
-        public IList<Order> GetAllOrders()
+        public IList<getAllorders> GetAllOrders()
         {
-            string fetchOrder = $"SELECT * FROM Mobifix_DB.ORDER_TABLE";
+            //string fetchOrder = $"SELECT * FROM Mobifix_DB.ORDER_TABLE";
+            string fetchOrder = $"SELECT CUST_VEND_ADMIN_ID, ORDER_ID, ORDER_PLACED_DATE, FULL_NAME, CONTACT_NUMBER, LOGIN_ID FROM USER_TBL u INNER JOIN ORDER_TABLE ot ON ot.FK_CUST_VEND_ADMIN_ID = u.CUST_VEND_ADMIN_ID INNER JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID = u.CUST_VEND_ADMIN_ID INNER JOIN CUST_PHONE cp ON cp.FK_CUST_VEND_ADMIN_ID = u.CUST_VEND_ADMIN_ID";
             var dtResult = MySqlOrderHelper.ExecuteQuery(fetchOrder);
-            var order = FillOrderModel(dtResult);
+            var order = FillgetAllordersModel(dtResult);
             return order;
         }
         public int UpdateOrderStatus(Order order)
@@ -51,15 +65,57 @@ namespace MobFix.Repositories
             {
                 foreach (DataRow row in dtOrders.Rows)
                 {
-                    var order = new Order();
+                    
+                        var order = new Order();
                     order.OrderID = Convert.ToInt32(row["ORDER_ID"]);
                     order.CustVendorAdminID = Convert.ToInt32(row["FK_CUST_VEND_ADMIN_ID"]);
-                    order.OrderPlacedDate = Convert.ToDateTime(row["ORDER_PLACED_DATE"]);
-                    order.ContactPhoneID = Convert.ToInt32(row["FK_NOCONS_CUST_PHONE_ID"]);
+                    order.IssueDetails = Convert.ToString(row["ISSUE_DTLS"]);
+                    order.IEMI = Convert.ToString(row["IEMI"]);
+                    
                     orderList.Add(order);
                 }
             }
             return orderList;
         }
+        private IList<getAllorders> FillgetAllordersModel(DataTable dtUsers)
+        {
+            var userList = new List<getAllorders>();
+            if (null != dtUsers && dtUsers.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtUsers.Rows)
+                {
+                    var user = new getAllorders();
+
+                    //CUST_VEND_ADMIN_ID, ORDER_ID, ORDER_PLACED_DATE, FULL_NAME, CONTACT_NUMBER, LOGIN_ID
+
+                    user.customeradminid = Convert.ToInt32(row["CUST_VEND_ADMIN_ID"]);
+                    user.OrderID = Convert.ToInt32(row["ORDER_ID"]);
+                    user.OrderPlacedDate = Convert.ToDateTime(row["ORDER_PLACED_DATE"]);
+                    user.fullname = Convert.ToString(row["FULL_NAME"]);
+                    user.ContactNumber = Convert.ToString(row["CONTACT_NUMBER"]);
+                    user.LoginId = row["LOGIN_ID"].ToString();
+
+
+                    //user.Add(user);
+
+                    //UserType userType;
+                    //if (Enum.TryParse<UserType>(row["FK_USER_TYPE_ID"].ToString(), out userType))
+                    //{
+                    //    user.UserType = userType.ToString();
+                    //}
+                    //user.NoOfAttempts = Convert.ToInt32(row["NUM_OF_FAILED_ATTEMPTS"]);
+                    // user.LastLoginDate = Convert.ToDateTime(row["LAST_LOGIN_DT"]);
+                    UserStatus userStatus;
+                    if (Enum.TryParse<UserStatus>(row["ORDER_ID"].ToString(), out userStatus))
+                    {
+                        //need to fix
+                        user.OrderID = Convert.ToInt32(row["ORDER_ID"]);
+                    }
+                    userList.Add(user);
+                }
+            }
+            return userList;
+        }
     }
 }
+   

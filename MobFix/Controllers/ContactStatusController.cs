@@ -49,5 +49,17 @@ namespace MobFix.Controllers
             }
             return Ok("Contact Status updated");
         }
+        [HttpDelete]
+        public IHttpActionResult DeleteContactStatus([FromBody]ContactStatus contactstatus)
+        {
+            var contactstatusRepo = new ContactStatusRepository();
+            var result = contactstatusRepo.DeleteContactStatus(contactstatus);
+            if (result <= 0)
+            {
+                return Ok("Error occurred while Deleting the contact status");
+            }
+            return Ok("Deleted Contact status");
+
+        }
     }
 }

@@ -57,6 +57,10 @@ namespace MobFix.Repositories
             string updateOrderInfo = $"UPDATE Mobifix_DB.COST_QUOTE SET COST_QUOTE_IND  = '{costquote.CostQuoteIND}' WHERE LOWER(COST_QUOTE_ID) = '{costquote.CostQuoteID.ToString()}' ";
             return MySqlCostQuoteHelper.ExecuteNonQuery(updateOrderInfo);
         }
-
+        public int DeleteCostQuote(Cost_Quote costquote)
+        {
+            string updateCostQuoteInfo = $"DELETE FROM Mobifix_DB.COST_QUOTE  WHERE LOWER(COST_QUOTE_ID) = '{costquote.CostQuoteID.ToString()}' ";
+            return MySqlCostQuoteHelper.ExecuteNonQuery(updateCostQuoteInfo);
+        }
     }
 }

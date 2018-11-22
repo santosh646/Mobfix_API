@@ -53,5 +53,10 @@ namespace MobFix.Repositories
             }
             return customeraddressList;
         }
+        public int DeleteCustomerAddress(Cust_Addr customeraddress)
+        {
+            string updateCustomerAddressInfo = $"DELETE FROM Mobifix_DB.CUST_ADDRESS  WHERE LOWER(CUST_ADDR_ID) = '{customeraddress.CustAddrID.ToString()}' ";
+            return MySqlCustomerAddressHelper.ExecuteNonQuery(updateCustomerAddressInfo);
+        }
     }
 }

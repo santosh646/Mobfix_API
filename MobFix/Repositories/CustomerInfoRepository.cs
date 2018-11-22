@@ -53,5 +53,10 @@ namespace MobFix.Repositories
             }
             return customerinfoList;
         }
+        public int DeleteCustomerInfo(Cust_Info customerinfo)
+        {
+            string updateCustomerInfo = $"DELETE FROM Mobifix_DB.CUST_INFO  WHERE LOWER(CUST_INFO_ID) = '{customerinfo.CustInfoID.ToString()}' ";
+            return MySqlCustomerInfoHelper.ExecuteNonQuery(updateCustomerInfo);
+        }
     }
 }

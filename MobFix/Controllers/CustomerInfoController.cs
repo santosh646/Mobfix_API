@@ -48,5 +48,17 @@ namespace MobFix.Controllers
             return Ok("Customer Info Status updated");
 
         }
+        [HttpDelete]
+        public IHttpActionResult DeleteCustomerInfo([FromBody]Cust_Info customerinfo)
+        {
+            var customerinfoRepo = new CustomerInfoRepository();
+            var result = customerinfoRepo.DeleteCustomerInfo(customerinfo);
+            if (result <= 0)
+            {
+                return Ok("Error occurred while Deleting the customer info");
+            }
+            return Ok("Deleted Customer info");
+
+        }
     }
 }

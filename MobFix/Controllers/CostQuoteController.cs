@@ -48,6 +48,18 @@ namespace MobFix.Controllers
             return Ok("Cost Quote updated");
 
         }
+        [HttpDelete]
+        public IHttpActionResult DeleteContactTypeStatus([FromBody]ContactType contacttype)
+        {
+            var contacttypeRepo = new ContactTypeRepository();
+            var result = contacttypeRepo.DeleteContactTypeStatus(contacttype);
+            if (result <= 0)
+            {
+                return Ok("Error occurred while Deleting the contact type status");
+            }
+            return Ok("Deleted Contact Type status");
+
+        }
 
     }
 }

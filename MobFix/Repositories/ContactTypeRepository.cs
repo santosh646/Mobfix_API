@@ -51,5 +51,10 @@ namespace MobFix.Repositories
             }
             return contacttypeList;
         }
+        public int DeleteContactTypeStatus(ContactType contacttype)
+        {
+            string updateContactTypeInfo = $"DELETE FROM Mobifix_DB.CONTACT_TYPE  WHERE LOWER(CONTACT_TYPE_ID) = '{contacttype.ContactTypeID.ToString()}' ";
+            return MySqlContactTypeHelper.ExecuteNonQuery(updateContactTypeInfo);
+        }
     }
 }
