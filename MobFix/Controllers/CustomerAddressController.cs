@@ -48,5 +48,17 @@ namespace MobFix.Controllers
             return Ok("Customer Address Status updated");
 
         }
+        [HttpDelete]
+        public IHttpActionResult DeleteCustomerAddress([FromBody]Cust_Addr customeraddress)
+        {
+            var customeraddressRepo = new CustomerAddressRepository();
+            var result = customeraddressRepo.DeleteCustomerAddress(customeraddress);
+            if (result <= 0)
+            {
+                return Ok("Error occurred while Deleting the Customer address");
+            }
+            return Ok("Deleted Customer address");
+
+        }
     }
 }

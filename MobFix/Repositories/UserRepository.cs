@@ -23,11 +23,11 @@ namespace MobFix.Repositories
             return user.FirstOrDefault<User>();
         }
 
-        public IList<User> GetAllUsers()
+        public IList<getAllUsers> GetAllUsers()
         {
-            string fetchUser = $"SELECT * FROM Mobifix_DB.USER_TBL";
+            string fetchUser = $"SELECT CUST_VEND_ADMIN_ID, FULL_NAME, LOGIN_ID, FK_USER_STATUS_CD, CONTACT_NUMBER from USER_TBL U INNER JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID=U.CUST_VEND_ADMIN_ID INNER JOIN CUST_PHONE cp ON cp.FK_CUST_VEND_ADMIN_ID=U.CUST_VEND_ADMIN_ID";
             var dtResult = mySqlHelper.ExecuteQuery(fetchUser);
-            var user = FillUserModel(dtResult);
+            var user = FillgetAllUsersModel(dtResult);
             return user;
         }
 
@@ -73,5 +73,40 @@ namespace MobFix.Repositories
             }
             return userList;
         }
+
+        private IList<getAllUsers> FillgetAllUsersModel(DataTable dtUsers)
+        {
+            var userList = new List<getAllUsers>();
+            if (null != dtUsers && dtUsers.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtUsers.Rows)
+                {
+                    var user = new getAllUsers();
+                    user.customeradminid = Convert.ToInt32(row["CUST_VEND_ADMIN_ID"]);
+                    user.fullname = Convert.ToString(row["FULL_NAME"]);
+                    //user.OrderPlacedDate = Convert.ToDateTime(row["ORDER_PLACED_DATE"]);
+                    //user.ContactPhoneID = Convert.ToInt32(row["FK_NOCONS_CUST_PHONE_ID"]);
+                    //user.Add(user);
+                    user.LoginId = row["LOGIN_ID"].ToString();
+                    user.ContactNumber = Convert.ToString(row["CONTACT_NUMBER"]);
+                    //UserType userType;
+                    //if (Enum.TryParse<UserType>(row["FK_USER_TYPE_ID"].ToString(), out userType))
+                    //{
+                    //    user.UserType = userType.ToString();
+                    //}
+                    //user.NoOfAttempts = Convert.ToInt32(row["NUM_OF_FAILED_ATTEMPTS"]);
+                    // user.LastLoginDate = Convert.ToDateTime(row["LAST_LOGIN_DT"]);
+                    UserStatus userStatus;
+                    if (Enum.TryParse<UserStatus>(row["FK_USER_STATUS_CD"].ToString(), out userStatus))
+                    {
+                        //need to fix
+                        user.UserStatus = row["FK_USER_STATUS_CD"].ToString();
+                    }
+                    userList.Add(user);
+                }
+            }
+            return userList;
+        }
     }
 }
+    

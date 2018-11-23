@@ -7,6 +7,7 @@ namespace MobFix.Models
 {
     public class User
     {
+
         public string Id;
         public string UserType;
         public string LoginId;
@@ -41,6 +42,18 @@ namespace MobFix.Models
         public int ChangeByID;
         public DateTime AddDate;
         public int AddedByUserID;
+
+    }
+
+
+    public class getAllUsers
+    {
+
+        public int customeradminid;
+        public string fullname;
+        public string LoginId;
+        public string UserStatus;
+        public string ContactNumber;
 
     }
 }

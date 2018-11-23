@@ -37,4 +37,14 @@ namespace MobFix.Models
         public DateTime EstimatedTimetoDeliver;
 
     }
+    public class getAllorders
+    {
+
+        public int customeradminid;
+        public int OrderID;
+        public DateTime OrderPlacedDate;
+        public string fullname;
+        public string ContactNumber;
+        public string LoginId;
+    }
 }

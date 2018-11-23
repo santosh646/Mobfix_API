@@ -38,6 +38,18 @@ namespace MobFix.Controllers
             return Ok(order);
         }
 
+        // GET: api/Order/testAdmin1@gmail.com  
+        public IHttpActionResult GetOrder(String emailid)
+        {
+            var orderRepo = new OrderRepository();
+            var order = orderRepo.GetemailOrder(emailid);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return Ok(order);
+        }
+
         [HttpPost]
         public IHttpActionResult InsertOrderDetails([FromBody]Order order)
         {

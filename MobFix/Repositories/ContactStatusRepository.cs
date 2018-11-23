@@ -55,8 +55,12 @@ namespace MobFix.Repositories
             }
             return contactstatusList;
         }
-        
-        
+
+        public int DeleteContactStatus(ContactStatus contactstatus)
+        {
+            string updateContactStatusInfo = $"DELETE FROM Mobifix_DB.CONTACT_STATUS  WHERE LOWER(CONTACT_STATUS_CD) = '{contactstatus.ContactStatusCD.ToString()}' ";
+            return MySqlContactStatusHelper.ExecuteNonQuery(updateContactStatusInfo);
+        }
 
     }
 }
