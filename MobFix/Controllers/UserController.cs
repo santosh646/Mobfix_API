@@ -27,16 +27,29 @@ namespace MobFix.Controllers
             return Ok(userList);
         }
 
+        //// GET: api/User/5
+        //public IHttpActionResult GetUser(string userName, string password)
+        //{
+        //    var userRepo = new UserRepository();
+        //    var user = userRepo.GetUser(userName, password);
+        //    if(user == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return Ok(user);
+        //}
+
         // GET: api/User/5
-        public IHttpActionResult GetUser(string userName, string password)
+        [HttpPost]
+        public IHttpActionResult GetUser([FromBody]User user)
         {
             var userRepo = new UserRepository();
-            var user = userRepo.GetUser(userName, password);
-            if(user == null)
+            var getuser = userRepo.GetUser(user);
+            if (getuser == null)
             {
                 return NotFound();
             }
-            return Ok(user);
+            return Ok(getuser);
         }
 
         [HttpPost]

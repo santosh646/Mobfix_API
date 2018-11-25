@@ -25,15 +25,16 @@ namespace MobFix.Controllers
         }
 
         // GET: api/OrderStatus/5
-        public IHttpActionResult GetOrderStatus(int OrderStatusID, string OrdertatusInd )
+        [HttpPost]
+        public IHttpActionResult GetOrderStatus(OrderStatus orderstatus )
         {
             var orderstatusRepo = new OrderStatusRepository();
-            var orderstatus = orderstatusRepo.GetOrderStatus(OrderStatusID, OrdertatusInd);
-            if (orderstatus == null)
+            var getorderstatus = orderstatusRepo.GetOrderStatus(orderstatus);
+            if (getorderstatus == null)
             {
                 return NotFound();
             }
-            return Ok(orderstatus);
+            return Ok(getorderstatus);
         }
 
         [HttpPut]

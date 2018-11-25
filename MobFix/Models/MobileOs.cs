@@ -17,4 +17,6 @@ namespace MobFix.Models
         public DateTime LastModifiedDate { get; set; }
         public int LastModifiedBy { get; set; }
     }
+
+    
 }

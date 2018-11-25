@@ -25,15 +25,16 @@ namespace MobFix.Controllers
         }
 
         // GET: api/MobileVersion/5
-        public IHttpActionResult GetMobileVersion(int MobileVersionID, int MobileCompanyID )
+        [HttpPost]
+        public IHttpActionResult GetMobileVersion([FromBody]MobileVersion mobileversion )
         {
             var moblieversionRepo = new MobileVersionRepository();
-            var mobileversiontype = moblieversionRepo.GetMobileVersion(MobileVersionID, MobileCompanyID);
-            if (mobileversiontype == null)
+            var getmobileversiontype = moblieversionRepo.GetMobileVersion(mobileversion);
+            if (getmobileversiontype == null)
             {
                 return NotFound();
             }
-            return Ok(mobileversiontype);
+            return Ok(getmobileversiontype);
         }
         // PUT: api/Mobileversion
         [HttpPut]

@@ -25,15 +25,16 @@ namespace MobFix.Controllers
         }
 
         // GET: api/MobileTypes/5
-        public IHttpActionResult GetMobileType(int MobileCompanyID, string MobileCompDesc)
+        [HttpPost]
+        public IHttpActionResult GetMobileType(MobileTypes mobiletypes)
         {
             var moblietypeRepo = new MobileTypesRepository();
-            var mobiletype = moblietypeRepo.GetMobileType(MobileCompanyID, MobileCompDesc);
-            if (mobiletype == null)
+            var getmobiletype = moblietypeRepo.GetMobileType(mobiletypes);
+            if (getmobiletype == null)
             {
                 return NotFound();
             }
-            return Ok(mobiletype);
+            return Ok(getmobiletype);
         }
         // PUT: api/MobileType
         [HttpPut]

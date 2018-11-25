@@ -13,12 +13,12 @@ namespace MobFix.Repositories
         MySqlOrderStatusHelper MySqlOrderStatusHelper = new MySqlOrderStatusHelper();
 
 
-        public OrderStatus GetOrderStatus(int OrderStatusID, string OrdertatusInd)
+        public OrderStatus GetOrderStatus(OrderStatus orderstatus)
         {
-            string fetchOrderStatus = $"SELECT * FROM Mobifix_DB.ORDER_STATUS WHERE LOWER ORDER_STATUS_ID() = '{ OrderStatusID.ToString() }'";
+            string fetchOrderStatus = $"SELECT * FROM Mobifix_DB.ORDER_STATUS WHERE LOWER (ORDER_STATUS_ID) = '{ orderstatus.OrderStatusID.ToString() }'";
             var dtResult = MySqlOrderStatusHelper.ExecuteQuery(fetchOrderStatus);
-            var orderstatus = FillOrderStatusModel(dtResult);
-            return orderstatus.FirstOrDefault<OrderStatus>();
+            var getorderstatus = FillOrderStatusModel(dtResult);
+            return getorderstatus.FirstOrDefault<OrderStatus>();
 
         }
 
@@ -50,6 +50,8 @@ namespace MobFix.Repositories
                     {
                         orderstatus.Orderstatus = OrderStatus.ToString();
                     }
+                    orderstatus.Orderstatus = Convert.ToString(row["ORDER_STATUS_DESC"]);
+                    orderstatus.OderStausInd = Convert.ToString(row["ORDER_STATUS_IND"]);
                     orderstatus.CreatedDate = Convert.ToDateTime(row["CREATED_DATE"]);
                     orderstatus.CreatedBy = Convert.ToInt32(row["CREATED_BY"]);
                     orderstatusList.Add(orderstatus);

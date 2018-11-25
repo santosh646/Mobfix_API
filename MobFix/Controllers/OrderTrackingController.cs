@@ -27,15 +27,16 @@ namespace MobFix.Controllers
         }
 
         // GET: api/OrderTracking/5
-        public IHttpActionResult GetOrderTracker(int OrdertrackingID, int orderID)
+        [HttpPost]
+        public IHttpActionResult GetOrderTracker(Order_Tracking ordertracking)
         {
             var ordertrackerRepo = new OrderTrackingRepository();
-            var ordertracker = ordertrackerRepo.GetOrderTracker(OrdertrackingID, orderID);
-            if (ordertracker == null)
+            var getordertracker = ordertrackerRepo.GetOrderTracker(ordertracking);
+            if (getordertracker == null)
             {
                 return NotFound();
             }
-            return Ok(ordertracker);
+            return Ok(getordertracker);
         }
 
         [HttpPut]

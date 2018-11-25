@@ -14,9 +14,9 @@ namespace MobFix.Repositories
         MySqlMobileVersionHelper MySqlMobileVersionHelper = new MySqlMobileVersionHelper();
 
 
-        public MobileVersion GetMobileVersion(int MobileVersionID, int MobileCompanyID )
+        public MobileVersion GetMobileVersion(MobileVersion mobileversion)
         {
-            string fetchMobileVersionType = $"SELECT * FROM Mobifix_DB.MOBILE_VER_TYPE WHERE LOWER MOBILE_VER_TYPE_ID () = '{ MobileVersionID.ToString() }'";
+            string fetchMobileVersionType = $"SELECT * FROM Mobifix_DB.MOBILE_VER_TYPE WHERE LOWER (MOBILE_VER_TYPE_ID) = '{ mobileversion.MobileVersionTypeID.ToString() }'";
             var dtResult = MySqlMobileVersionHelper.ExecuteQuery(fetchMobileVersionType);
             var mobileversiontype = FillMobileVersionTypesModel(dtResult);
             return mobileversiontype.FirstOrDefault<MobileVersion>();
@@ -41,6 +41,10 @@ namespace MobFix.Repositories
                 {
                     var mobileversiontype = new MobileVersion();
                     mobileversiontype.MobileVersionTypeID = Convert.ToInt32(row["MOBILE_VER_TYPE_ID"]);
+                    //mobileversiontype.MobileCompanyID = Convert.ToInt32(row["MOBILE_CMPNY_ID"]);
+                    mobileversiontype.MobileVersionDescription = Convert.ToString(row["MOBILE_VER_DESC"]);
+                   // mobileversiontype.MobileVersionTypeID = Convert.ToInt32(row["MOBILE_VER_TYPE_IND"]);
+
                     mobileversiontype.CreatedDate = Convert.ToDateTime(row["CREATED_DATE"]);
                     mobileversiontype.CreatedBy = Convert.ToInt32(row["CREATED_BY"]);
                     

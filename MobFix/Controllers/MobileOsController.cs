@@ -25,15 +25,16 @@ namespace MobFix.Controllers
         }
 
         // GET: api/MobileOs/5
-        public IHttpActionResult GetMobileOsType(int MobileOSID, int MobileVersionTypeID)
+        [HttpPost]
+        public IHttpActionResult GetMobileOsType([FromBody]MobileOs mobileos)
         {
             var moblieosRepo = new MobileOsRepository();
-            var mobileostype = moblieosRepo.GetMobileOsType(MobileOSID, MobileVersionTypeID);
-            if (mobileostype == null)
+            var getmobileostype = moblieosRepo.GetMobileOsType(mobileos);
+            if (getmobileostype == null)
             {
                 return NotFound();
             }
-            return Ok(mobileostype);
+            return Ok(getmobileostype);
         }
         // PUT: api/Mobileos
         [HttpPut]
