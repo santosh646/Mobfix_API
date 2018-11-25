@@ -13,14 +13,23 @@ namespace MobFix.Repositories
     public class UserRepository
     {
         MySqlHelper mySqlHelper = new MySqlHelper();
-       
-        public User GetUser(string loginID, string pwd)
+
+        //public User GetUser(string loginID, string pwd)
+        //{
+        //    //string fetchUser = $"SELECT * FROM Mobifix_DB.USER_TBL WHERE LOWER(LOGIN_ID) = { loginID.ToLower() } AND LOGIN_PWD = { pwd }";
+        //    string fetchUser = $"SELECT * FROM Mobifix_DB.USER_TBL WHERE LOWER(LOGIN_ID) = '{ loginID.ToLower() }'";
+        //    var dtResult = mySqlHelper.ExecuteQuery(fetchUser);
+        //    var user = FillUserModel(dtResult);
+        //    return user.FirstOrDefault<User>();
+        //}
+
+        public User GetUser(User user)
         {
             //string fetchUser = $"SELECT * FROM Mobifix_DB.USER_TBL WHERE LOWER(LOGIN_ID) = { loginID.ToLower() } AND LOGIN_PWD = { pwd }";
-            string fetchUser = $"SELECT * FROM Mobifix_DB.USER_TBL WHERE LOWER(LOGIN_ID) = '{ loginID.ToLower() }'";
+            string fetchUser = $"SELECT * FROM Mobifix_DB.USER_TBL WHERE LOWER(LOGIN_ID) = '{user.LoginId.ToLowerInvariant()}' ";
             var dtResult = mySqlHelper.ExecuteQuery(fetchUser);
-            var user = FillUserModel(dtResult);
-            return user.FirstOrDefault<User>();
+            var getuser = FillUserModel(dtResult);
+            return getuser.FirstOrDefault<User>();
         }
 
         public IList<getAllUsers> GetAllUsers()

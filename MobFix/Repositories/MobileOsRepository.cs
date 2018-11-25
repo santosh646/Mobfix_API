@@ -13,9 +13,9 @@ namespace MobFix.Repositories
         MySqlMobileOsHelper MySqlMobileOsHelper = new MySqlMobileOsHelper();
 
 
-        public MobileOs GetMobileOsType(int MobileOSID, int MobileVersionTypeID)
+        public MobileOs GetMobileOsType(MobileOs mobileos)
         {
-            string fetchMobileOsType = $"SELECT * FROM Mobifix_DB.MOBILE_OS_TYPE WHERE LOWER MOBILE_OS_TYPE_ID () = '{ MobileOSID.ToString() }'";
+            string fetchMobileOsType = $"SELECT * FROM Mobifix_DB.MOBILE_OS_TYPE WHERE LOWER (MOBILE_OS_TYPE_ID) = '{ mobileos.MobileOsID }'";
             var dtResult = MySqlMobileOsHelper.ExecuteQuery(fetchMobileOsType);
             var mobileostype = FillMobileOsTypesModel(dtResult);
             return mobileostype.FirstOrDefault<MobileOs>();
@@ -40,9 +40,12 @@ namespace MobFix.Repositories
                 {
                     var mobileostype = new MobileOs();
                     mobileostype.MobileOsID = Convert.ToInt32(row["MOBILE_OS_TYPE_ID"]);
+                     mobileostype.MobileOsDescription = Convert.ToString(row["MOBILE_OS_DESC"]);
+                    mobileostype.MobileOsTypeInd = Convert.ToInt32(row["MOBILE_OS_TYPE_IND"]);
                     mobileostype.CreatedDate = Convert.ToDateTime(row["CREATED_DATE"]);
                     mobileostype.CreatedBy = Convert.ToInt32(row["CREATED_BY"]);
                     mobileostype.LastModifiedDate = Convert.ToDateTime(row["LASTMODIFIED_DATE"]);
+                    mobileostype.LastModifiedBy = Convert.ToInt32(row["LASTMODIFIED_BY"]);
                     mobileostypesList.Add(mobileostype);
                 }
             }

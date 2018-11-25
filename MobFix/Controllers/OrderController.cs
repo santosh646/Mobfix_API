@@ -27,22 +27,24 @@ namespace MobFix.Controllers
         }
 
         // GET: api/Order/5
-        public IHttpActionResult GetOrder(int OrderID, int CustVendorAdminID)
+        [HttpPost]
+        public IHttpActionResult GetOrder([FromBody]getorder getorder)
         {
-            var orderRepo = new OrderRepository();
-            var order = orderRepo.GetOrder(OrderID, CustVendorAdminID);
-            if (order == null)
+            var getorderRepo = new OrderRepository();
+            var getorders = getorderRepo.GetOrder(getorder);
+            if (getorders == null)
             {
                 return NotFound();
             }
-            return Ok(order);
+            return Ok(getorders);
         }
-
-        // GET: api/Order/testAdmin1@gmail.com  
-        public IHttpActionResult GetOrder(String emailid)
+        [HttpGet]
+        [Route("Order/{emailid}")]
+        // GET: api/Order/'testAdmin1@gmail.com'  
+        public IHttpActionResult getemailOrder(String emailid)
         {
             var orderRepo = new OrderRepository();
-            var order = orderRepo.GetemailOrder(emailid);
+            var order = orderRepo.getemailOrder(emailid);
             if (order == null)
             {
                 return NotFound();

@@ -14,12 +14,12 @@ namespace MobFix.Repositories
         MySqlOrderTrackingHelper MySqlOrderTrackingHelper = new MySqlOrderTrackingHelper();
 
 
-        public Order_Tracking GetOrderTracker(int OrdertrackingID, int orderID)
+        public Order_Tracking GetOrderTracker(Order_Tracking ordertracking)
         {
-            string fetchOrderTracker = $"SELECT * FROM Mobifix_DB.ORDER_TRACKING WHERE LOWER ORDER_TRACKING_ID() = '{ OrdertrackingID.ToString() }'";
+            string fetchOrderTracker = $"SELECT * FROM Mobifix_DB.ORDER_TRACKING WHERE LOWER (ORDER_TRACKING_ID) = '{ ordertracking.OrderTrackingID.ToString() }'";
             var dtResult = MySqlOrderTrackingHelper.ExecuteQuery(fetchOrderTracker);
-            var ordertracker = FillOrderTrackingModel(dtResult);
-            return ordertracker.FirstOrDefault<Order_Tracking>();
+            var getordertracker = FillOrderTrackingModel(dtResult);
+            return getordertracker.FirstOrDefault<Order_Tracking>();
 
         }
 
@@ -50,6 +50,12 @@ namespace MobFix.Repositories
                     ordertracker.OrderTrackingID = Convert.ToInt32(row["ORDER_TRACKING_ID"]);
                     ordertracker.OrderFKId = Convert.ToInt32(row["FK_ORDER_ID"]);
                     ordertracker.ORDERSTATUSID = Convert.ToInt32(row["FK_ORDER_STATUS_ID"]);
+                    ordertracker.OrdertrackingDate = Convert.ToDateTime(row["ORDER_TRACKING_DATE"]);
+                    ordertracker.Comment = Convert.ToString(row["EXTRA_COMMENTS"]);
+                    ordertracker.CREATEDDATE = Convert.ToDateTime(row["CREATED_DATE"]);
+                    ordertracker.CREATEDBY = Convert.ToInt32(row["CREATED_BY"]);
+                    ordertracker.LASTMODIFIEDDATE = Convert.ToDateTime(row["LASTMODIFIED_DATE"]);
+                    ordertracker.LASTMODIFIEDBY = Convert.ToInt32(row["LASTMODIFIED_BY"]);
                     ordertrackerList.Add(ordertracker);
                 }
             }

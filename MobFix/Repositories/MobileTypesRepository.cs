@@ -13,9 +13,9 @@ namespace MobFix.Repositories
         MySqlMobileTypesHelper MySqlMobileTypesHelper = new MySqlMobileTypesHelper();
 
 
-        public MobileTypes GetMobileType(int MobileCompanyID, string MobileCompDesc)
+        public MobileTypes GetMobileType(MobileTypes mobiletypes)
         {
-            string fetchMobileType = $"SELECT * FROM Mobifix_DB.MOBILE_TYPE WHERE LOWER MOBILE_CMPNY_ID () = '{ MobileCompanyID.ToString() }'";
+            string fetchMobileType = $"SELECT * FROM Mobifix_DB.MOBILE_TYPE WHERE LOWER (MOBILE_CMPNY_ID) = '{ mobiletypes.MobileCompanyID.ToString() }'";
             var dtResult = MySqlMobileTypesHelper.ExecuteQuery(fetchMobileType);
             var mobiletype = FillMobileTypesModel(dtResult);
             return mobiletype.FirstOrDefault<MobileTypes>();
@@ -40,6 +40,8 @@ namespace MobFix.Repositories
                 {
                     var mobiletype = new MobileTypes();
                     mobiletype.MobileCompanyID = Convert.ToInt32(row["MOBILE_CMPNY_ID"]);
+                    mobiletype.MobileCompany = Convert.ToString(row["MOBILE_CMPNY_DESC"]);
+                    mobiletype.MobileTypeInd = Convert.ToString(row["MOBILE_TYPE_IND"]);
                     mobiletype.CreatedDate = Convert.ToDateTime(row["CREATED_DATE"]);
                     mobiletype.CreatedBy = Convert.ToInt32(row["CREATED_BY"]);
                     mobiletypesList.Add(mobiletype);

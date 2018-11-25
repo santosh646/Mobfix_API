@@ -13,12 +13,12 @@ namespace MobFix.Repositories
         MySqlIssueTypeHelper MySqlIssueTypeHelper = new MySqlIssueTypeHelper();
 
 
-        public IssueType GetIssueType(int IssueTypeID, int IssuesTypeInd)
+        public IssueType GetIssueType(IssueType issuetype)
         {
-            string fetchIssueType = $"SELECT * FROM Mobifix_DB.TYPE_TYPE WHERE LOWER ISSUE_TYPE_ID () = '{ IssueTypeID.ToString() }'";
+            string fetchIssueType = $"SELECT * FROM Mobifix_DB.ISSUE_TYPE WHERE LOWER (ISSUE_TYPE_ID) = '{ issuetype.IssueTypeID.ToString() }'";
             var dtResult = MySqlIssueTypeHelper.ExecuteQuery(fetchIssueType);
-            var issuetype = FillIssueTypesModel(dtResult);
-            return issuetype.FirstOrDefault<IssueType>();
+            var getissuetype = FillIssueTypesModel(dtResult);
+            return getissuetype.FirstOrDefault<IssueType>();
 
         }
 
@@ -46,8 +46,14 @@ namespace MobFix.Repositories
                 {
                     var issuetype = new IssueType();
                     issuetype.IssueTypeID = Convert.ToInt32(row["ISSUE_TYPE_ID"]);
+                    issuetype.IssuesTypeDescription = Convert.ToString(row["ISSUE_TYPE_DESC"]);
+                    issuetype.IssuesTypeInd= Convert.ToString(row["ISSUE_TYPE_IND"]);
+
                     issuetype.CreatedDate = Convert.ToDateTime(row["CREATED_DATE"]);
                     issuetype.CreatedBy = Convert.ToInt32(row["CREATED_BY"]);
+
+                    issuetype.LastModifiedDate = Convert.ToDateTime(row["LASTMODIFIED_DATE"]);
+                    issuetype.LastModifiedBy = Convert.ToInt32(row["LASTMODIFIED_BY"]);
 
                     issuetypesList.Add(issuetype);
                 }

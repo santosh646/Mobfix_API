@@ -11,23 +11,23 @@ namespace MobFix.Repositories
     public class OrderRepository
     {
         MySqlOrderHelper MySqlOrderHelper = new MySqlOrderHelper();
-        private object user;
+       // private object user;
 
-        public Order GetOrder(int OrderID, int CustVendorAdminID)
+        public getorder GetOrder(getorder getorder)
         {
-            //string fetchOrder = $"SELECT * FROM Mobifix_DB.ORDER_TABLE WHERE LOWER ORDER_ID() = '{ OrderID.ToString() }'";
-            string fetchOrder = $"SELECT * FROM Mobifix_DB.ORDER_TABLE WHERE LOWER ORDER_ID() = '{ OrderID.ToString() }'";
+           // string fetchOrder = $"SELECT * FROM Mobifix_DB.ORDER_TABLE WHERE LOWER ORDER_ID() = '{ OrderID.ToString() }'";
+           string fetchOrder = $"SELECT * FROM Mobifix_DB.ORDER_TABLE WHERE LOWER (ORDER_ID) = '{ getorder.OrderID.ToString()}'";
 
             var dtResult = MySqlOrderHelper.ExecuteQuery(fetchOrder);
-            var order = FillOrderModel(dtResult);
-            return order.FirstOrDefault<Order>();
-
+            var getorders = FillgetorderModel(dtResult);
+            return getorders.FirstOrDefault<getorder>();
+            
         }
-        public Order GetemailOrder(String emailid)
+        public Order getemailOrder(String emailid)
         {
            // UPDATE Mobifix_DB.ORDER_TABLE SET FK_NOCONS_CUST_PHONE_ID = '{order.ContactPhoneID}' WHERE LOWER(ORDER_ID) = '{order.OrderID.ToString()}'
             //string fetchOrder = $"SELECT * FROM Mobifix_DB.ORDER_TABLE WHERE LOWER ORDER_ID() = '{ OrderID.ToString() }'";
-            string fetchOrder = $"SELECT * FROM ORDER_TABLE ot INNER JOIN USER_TBL ut ON ut.CUST_VEND_ADMIN_ID=ot.FK_CUST_VEND_ADMIN_ID WHERE ut.LOGIN_ID='testAdmin1@gmail.com'";
+            string fetchOrder = $"SELECT * FROM ORDER_TABLE ot INNER JOIN USER_TBL ut ON ut.CUST_VEND_ADMIN_ID=ot.FK_CUST_VEND_ADMIN_ID WHERE ut.LOGIN_ID='{emailid}'";
 
             var dtResult = MySqlOrderHelper.ExecuteQuery(fetchOrder);
             var order = FillOrderModel(dtResult);
@@ -69,14 +69,59 @@ namespace MobFix.Repositories
                         var order = new Order();
                     order.OrderID = Convert.ToInt32(row["ORDER_ID"]);
                     order.CustVendorAdminID = Convert.ToInt32(row["FK_CUST_VEND_ADMIN_ID"]);
+                    order.AssignedtoVendorID = Convert.ToInt32(row["ASSIGNED_TO_VENDOR_ID"]);
+                    order.IssuesTypeID = Convert.ToInt32(row["FK_ISSUE_TYPE_ID"]);
                     order.IssueDetails = Convert.ToString(row["ISSUE_DTLS"]);
                     order.IEMI = Convert.ToString(row["IEMI"]);
-                    
+                    order.MobileCompID = Convert.ToInt32(row["FK_MOBILE_CMPNY_ID"]);
+                    order.MobileVersionTypeID = Convert.ToInt32(row["FK_MOBILE_VER_TYPE_ID"]);
+                    order.InitialQuote = Convert.ToInt32(row["INITIAL_QUOTE"]);
+                    order.EstimatedQuote = Convert.ToInt32(row["ESTIMATED_QUOTE"]);
+                    order.FinalCost = Convert.ToInt32(row["FINAL_COST"]);
+
                     orderList.Add(order);
                 }
             }
             return orderList;
         }
+
+        private IList<getorder> FillgetorderModel(DataTable dtOrders)
+        {
+            var getorderList = new List<getorder>();
+            if (null != dtOrders && dtOrders.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtOrders.Rows)
+                {
+
+                    var order = new getorder();
+                    order.OrderID = Convert.ToInt32(row["ORDER_ID"]);
+                    order.CustVendorAdminID = Convert.ToInt32(row["FK_CUST_VEND_ADMIN_ID"]);
+                    order.AssignedtoVendorID = Convert.ToInt32(row["ASSIGNED_TO_VENDOR_ID"]);
+                    order.IssuesTypeID = Convert.ToInt32(row["FK_ISSUE_TYPE_ID"]);
+                    order.IssueDetails = Convert.ToString(row["ISSUE_DTLS"]);
+                    order.IEMI = Convert.ToString(row["IEMI"]);
+                    order.MobileCompID = Convert.ToInt32(row["FK_MOBILE_CMPNY_ID"]);
+                    order.MobileVersionTypeID = Convert.ToInt32(row["FK_MOBILE_VER_TYPE_ID"]);
+                    order.InitialQuote = Convert.ToInt32(row["INITIAL_QUOTE"]);
+                    order.EstimatedQuote = Convert.ToInt32(row["ESTIMATED_QUOTE"]);
+                    order.FinalCost = Convert.ToInt32(row["FINAL_COST"]);
+                    order.OrderPlacedDate = Convert.ToDateTime(row["ORDER_PLACED_DATE"]);
+                    order.EstimatedTimetoDeliver = Convert.ToDateTime(row["ESTIMIATED_DATE_OF_DELIVER"]);
+
+                    
+                    UserStatus userStatus;
+                    if (Enum.TryParse<UserStatus>(row["ORDER_ID"].ToString(), out userStatus))
+                    {
+                        
+                        order.OrderID = Convert.ToInt32(row["ORDER_ID"]);
+                    }
+                    getorderList.Add(order);
+                }
+            }
+            return getorderList;
+        }
+
+
         private IList<getAllorders> FillgetAllordersModel(DataTable dtUsers)
         {
             var userList = new List<getAllorders>();

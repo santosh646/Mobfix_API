@@ -25,15 +25,16 @@ namespace MobFix.Controllers
         }
 
         // GET: api/IssueType/5
-        public IHttpActionResult GetIssueType(int IssueTypeID, int IssuesTypeInd)
+        [HttpPost]
+        public IHttpActionResult GetIssueType(IssueType issuetype)
         {
             var issuetypeRepo = new IssueTypeRepository();
-            var issuetype = issuetypeRepo.GetIssueType(IssueTypeID, IssuesTypeInd);
-            if (issuetype == null)
+            var getissuetype = issuetypeRepo.GetIssueType(issuetype);
+            if (getissuetype == null)
             {
                 return NotFound();
             }
-            return Ok(issuetype);
+            return Ok(getissuetype);
         }
 
         [HttpPut]

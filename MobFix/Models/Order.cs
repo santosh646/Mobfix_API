@@ -47,4 +47,24 @@ namespace MobFix.Models
         public string ContactNumber;
         public string LoginId;
     }
+
+    public class getorder
+    {
+        public string Id;
+        public int OrderID;
+        public int CustVendorAdminID;
+        public int AssignedtoVendorID;
+        public int IssuesTypeID;
+        public string IssueDetails;
+        public string IEMI;
+        public int MobileCompID;
+        public int MobileVersionTypeID;
+        public Decimal InitialQuote;
+        public Decimal EstimatedQuote;
+        public Decimal FinalCost;
+        public DateTime OrderPlacedDate;
+        public DateTime EstimatedTimetoDeliver;
+
+    }
+
 }
