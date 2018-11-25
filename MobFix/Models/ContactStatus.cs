@@ -7,7 +7,7 @@ namespace MobFix.Models
 {
     public class ContactStatus
     {
-        public string ContactStatusCD { get; set; }
-        public string  ContactStatusDescription { get; set; }
+        public string Contactstatus;
+        public string ContactStatusDescription;
     }
 }

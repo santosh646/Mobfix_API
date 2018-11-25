@@ -12,12 +12,12 @@ namespace MobFix.Repositories
     {
         MySqlCustomerInfoHelper MySqlCustomerInfoHelper = new MySqlCustomerInfoHelper();
 
-        public Cust_Info GetCustomerInfo(int CustInfoID, int CustVendorAdminID)
+        public Cust_Info GetCustomerInfo(Cust_Info customerInfo)
         {
-            string fetchCustomerInfo = $"SELECT * FROM Mobifix_DB.CUST_INFO WHERE LOWER CUST_INFO_ID  () = '{ CustInfoID.ToString() }'";
+            string fetchCustomerInfo = $"SELECT * FROM Mobifix_DB.CUST_INFO WHERE LOWER (CUST_INFO_ID) = '{customerInfo.CustInfoID.ToString() }'";
             var dtResult = MySqlCustomerInfoHelper.ExecuteQuery(fetchCustomerInfo);
-            var customerinfo = FillCustomerInfoModel(dtResult);
-            return customerinfo.FirstOrDefault<Cust_Info>();
+            var getcustomerinfo = FillCustomerInfoModel(dtResult);
+            return getcustomerinfo.FirstOrDefault<Cust_Info>();
 
         }
 

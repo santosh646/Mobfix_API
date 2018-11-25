@@ -24,17 +24,34 @@ namespace MobFix.Controllers
             return Ok(usertypesList);
         }
 
+
         // GET: api/UserType/5
-        public IHttpActionResult GetUserType(int UserTypeID, string UserRole)
+        
+
+        [HttpPost]
+        public IHttpActionResult GetUserType([FromBody]UserTypes usertype)
         {
             var usertypeRepo = new UserTypesRepository();
-            var usertype = usertypeRepo.GetUserType(UserTypeID, UserRole);
-            if (usertype == null)
+            var getusertype = usertypeRepo.GetUserType(usertype);
+            if (getusertype == null)
             {
                 return NotFound();
             }
-            return Ok(usertype);
+            return Ok(getusertype);
         }
+
+        [HttpPost]
+        public IHttpActionResult InsertUserRegistrationDetails([FromBody]UserTypes usertype)
+        {
+            var usertypeRepo = new UserTypesRepository();
+            var result = usertypeRepo.InsertUserRegistrationDetails(usertype);
+            if (result <= 0)
+            {
+                return Ok("Error occurred while inserting the New User Registration Details");
+            }
+            return Ok("New User Registration Details Inserted");
+        }
+
 
         [HttpPut]
         public IHttpActionResult UpdateUserTypeStatus([FromBody]UserTypes usertype)

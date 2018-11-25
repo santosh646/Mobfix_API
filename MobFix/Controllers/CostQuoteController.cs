@@ -25,15 +25,16 @@ namespace MobFix.Controllers
         }
 
         // GET: api/CostQuote/5
-        public IHttpActionResult GetCostQuote(int CostQuoteID, int IssuesTypeID)
+        [HttpPost]
+        public IHttpActionResult GetCostQuote([FromBody]Cost_Quote costquote)
         {
             var costquoteRepo = new CostQuoteRepository();
-            var costquote = costquoteRepo.GetCostQuote(CostQuoteID, IssuesTypeID);
-            if (costquote == null)
+            var getcostquote = costquoteRepo.GetCostQuote(costquote);
+            if (getcostquote == null)
             {
                 return NotFound();
             }
-            return Ok(costquote);
+            return Ok(getcostquote);
         }
         // PUT: api/CostQuote
         [HttpPut]

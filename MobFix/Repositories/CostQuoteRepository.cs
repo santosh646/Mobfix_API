@@ -14,12 +14,12 @@ namespace MobFix.Repositories
         MySqlCostQuoteHelper MySqlCostQuoteHelper = new MySqlCostQuoteHelper();
 
 
-        public Cost_Quote GetCostQuote(int CostQuoteID, int IssuesTypeID)
+        public Cost_Quote GetCostQuote(Cost_Quote costquote)
         {
-            string fetchCostQuote = $"SELECT * FROM Mobifix_DB.COST_QUOTE WHERE LOWER COST_QUOTE_ID  () = '{ CostQuoteID.ToString() }'";
+            string fetchCostQuote = $"SELECT * FROM Mobifix_DB.COST_QUOTE WHERE LOWER (COST_QUOTE_ID) = '{ costquote.CostQuoteID.ToString() }'";
             var dtResult = MySqlCostQuoteHelper.ExecuteQuery(fetchCostQuote);
-            var costquote = FillCostQuoteModel(dtResult);
-            return costquote.FirstOrDefault<Cost_Quote>();
+            var getcostquote = FillCostQuoteModel(dtResult);
+            return getcostquote.FirstOrDefault<Cost_Quote>();
 
         }
 

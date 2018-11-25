@@ -25,15 +25,16 @@ namespace MobFix.Controllers
         }
 
         // GET: api/CustomerAddress/5
-        public IHttpActionResult GetCustomerAddress(int CustAddrID, int CustID)
+        [HttpPost]
+        public IHttpActionResult GetCustomerAddress([FromBody]Cust_Addr customeraddress)
         {
             var custaddressRepo = new CustomerAddressRepository();
-            var customeraddress = custaddressRepo.GetCustomerAddress(CustAddrID, CustID);
-            if (customeraddress == null)
+            var getcustomeraddress = custaddressRepo.GetCustomerAddress(customeraddress);
+            if (getcustomeraddress == null)
             {
                 return NotFound();
             }
-            return Ok(customeraddress);
+            return Ok(getcustomeraddress);
         }
 
         [HttpPut]

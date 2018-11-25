@@ -13,12 +13,12 @@ namespace MobFix.Repositories
         MySqlContactTypeHelper MySqlContactTypeHelper = new MySqlContactTypeHelper();
 
 
-        public ContactType GetContactType(int ContactTypeID, string ContactTypeDescription)
+        public ContactType GetContactType(ContactType contactType)
         {
-            string fetchContactType = $"SELECT * FROM Mobifix_DB.CONTACT_TYPE WHERE LOWER CONTACT_TYPE_ID  () = '{ ContactTypeID.ToString() }'";
+            string fetchContactType = $"SELECT * FROM Mobifix_DB.CONTACT_TYPE WHERE LOWER (CONTACT_TYPE_ID) = '{contactType.ContactTypeID.ToString() }'";
             var dtResult = MySqlContactTypeHelper.ExecuteQuery(fetchContactType);
-            var contacttype = FillContactTypeModel(dtResult);
-            return contacttype.FirstOrDefault<ContactType>();
+            var getcontacttype = FillContactTypeModel(dtResult);
+            return getcontacttype.FirstOrDefault<ContactType>();
         }
 
         public IList<ContactType> GetAllContactTypes()
@@ -44,7 +44,7 @@ namespace MobFix.Repositories
                     var contacttype = new ContactType();
 
                     contacttype.ContactTypeID = Convert.ToInt32(row["CONTACT_TYPE_ID"]);
-                    //contacttype.ContactTypeDescription = Convert.ToChar(row["CONTACT_TYPE_DESC"]);
+                    contacttype.ContactTypeDescription = Convert.ToString(row["CONTACT_TYPE_DESC"]);
 
                     contacttypeList.Add(contacttype);
                 }

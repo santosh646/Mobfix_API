@@ -13,12 +13,12 @@ namespace MobFix.Repositories
         MySqlCustomerPhoneHelper MySqlCustomerPhoneHelper = new MySqlCustomerPhoneHelper();
 
 
-        public Cust_Phone GetCustomerPhone(int CustPhoneID, int CustID)
+        public Cust_Phone GetCustomerPhone(Cust_Phone customerphone)
         {
-            string fetchCustomerPhone = $"SELECT * FROM Mobifix_DB.CUST_PHONE WHERE LOWER CUST_PHONE_ID  () = '{ CustPhoneID.ToString() }'";
+            string fetchCustomerPhone = $"SELECT * FROM Mobifix_DB.CUST_PHONE WHERE LOWER (CUST_PHONE_ID) = '{customerphone.CustPhoneID.ToString() }'";
             var dtResult = MySqlCustomerPhoneHelper.ExecuteQuery(fetchCustomerPhone);
-            var customerPhone = FillCustomerPhoneModel(dtResult);
-            return customerPhone.FirstOrDefault<Cust_Phone>();
+            var getcustomerPhone = FillCustomerPhoneModel(dtResult);
+            return getcustomerPhone.FirstOrDefault<Cust_Phone>();
 
         }
 
@@ -47,8 +47,13 @@ namespace MobFix.Repositories
 
                     customerphone.CustPhoneID = Convert.ToInt32(row["CUST_PHONE_ID"]);
                     customerphone.CustID = Convert.ToInt32(row["FK_CUST_VEND_ADMIN_ID"]);
-                    //customerphone.CreatedBy = Convert.ToInt32(row["CREATED_BY"]);
-
+                    customerphone.ContactPhoneID = Convert.ToInt32(row["FK_CONTACT_TYPE_ID"]);
+                    customerphone.ContactNumber = Convert.ToString(row["CONTACT_NUMBER"]);
+                    customerphone.ContactStatus = Convert.ToString(row["FK_CONTACT_STATUS_CD"]);
+                    customerphone.AddedDate = Convert.ToDateTime(row["CREATED_DATE"]);
+                    customerphone.AddByUserID = Convert.ToInt32(row["CREATED_BY"]);
+                    customerphone.ChangedDate = Convert.ToDateTime(row["LASTMODIFIED_DATE"]);
+                    customerphone.ChangedByID = Convert.ToInt32(row["LASTMODIFIED_BY"]);
                     customerphoneList.Add(customerphone);
                 }
             }

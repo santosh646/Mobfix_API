@@ -5,9 +5,8 @@ using System.Web;
 
 namespace MobFix.Models
 {
-    public class User
+    public class Vendors
     {
-
         public string Id;
         public string UserType;
         public string LoginId;
@@ -42,37 +41,6 @@ namespace MobFix.Models
         public int ChangeByID;
         public DateTime AddDate;
         public int AddedByUserID;
-
-    }
-
-    public class GetUser
-    {
-        public string Id;
-        public string FirstName;
-        public string LastName;
-        public string LoginId;
-        public string Password;
-        public string ContactNumber;
-        public string UserType;
-        public string AddressLine1;
-        public string AddressLine2;
-        public int NoOfAttempts;
-        public DateTime LastLoginDate;
-        public string UserStatus;
-        public DateTime CreatedDate;
-        public string CrearedBy;
-        public DateTime LastUpdateDate;
-        public string LastUpdateBy;
-
-    }
-    public class getAllUsers
-    {
-
-        public int customeradminid;
-        public string fullname;
-        public string LoginId;
-        public string UserStatus;
-        public string ContactNumber;
 
     }
 }

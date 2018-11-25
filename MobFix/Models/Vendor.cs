@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace MobFix.Models
 {
-    public class UserTypes
+    public class Vendor
     {
-        public int UserTypeID;
-        public string UserRole;
-        public int MaxLoginattempts;
         public string Id;
         public string UserType;
         public string LoginId;
@@ -31,7 +27,6 @@ namespace MobFix.Models
         public int AddByUserID;
         public DateTime ChangedDate;
         public int ChangedByID;
-
 
     }
 }

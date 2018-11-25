@@ -25,15 +25,16 @@ namespace MobFix.Controllers
         }
 
         // GET: api/CustomerPhone/5
-        public IHttpActionResult GetCustomerPhone(int CustPhoneID, int CustID)
+        [HttpPost]
+        public IHttpActionResult GetCustomerPhone([FromBody]Cust_Phone customerphone)
         {
             var custphoneRepo = new CustomerPhoneRepository();
-            var customerphone = custphoneRepo.GetCustomerPhone(CustPhoneID, CustID);
-            if (customerphone == null)
+            var getcustomerphone = custphoneRepo.GetCustomerPhone(customerphone);
+            if (getcustomerphone == null)
             {
                 return NotFound();
             }
-            return Ok(customerphone);
+            return Ok(getcustomerphone);
         }
 
         [HttpPut]

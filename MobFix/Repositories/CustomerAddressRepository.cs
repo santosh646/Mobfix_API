@@ -13,12 +13,12 @@ namespace MobFix.Repositories
         MySqlCustomerAddressHelper MySqlCustomerAddressHelper = new MySqlCustomerAddressHelper();
 
 
-        public Cust_Addr GetCustomerAddress(int CustAddrID, int CustID)
+        public Cust_Addr GetCustomerAddress(Cust_Addr customeraddress)
         {
-            string fetchCustomerAddress = $"SELECT * FROM Mobifix_DB.CUST_ADDRESS WHERE LOWER CUST_ADDR_ID  () = '{ CustAddrID.ToString() }'";
+            string fetchCustomerAddress = $"SELECT * FROM Mobifix_DB.CUST_ADDRESS WHERE LOWER (CUST_ADDR_ID) = '{customeraddress.CustAddrID.ToString() }'";
             var dtResult = MySqlCustomerAddressHelper.ExecuteQuery(fetchCustomerAddress);
-            var customeraddress = FillCustomerAddressModel(dtResult);
-            return customeraddress.FirstOrDefault<Cust_Addr>();
+            var getcustomeraddress = FillCustomerAddressModel(dtResult);
+            return getcustomeraddress.FirstOrDefault<Cust_Addr>();
 
         }
 
