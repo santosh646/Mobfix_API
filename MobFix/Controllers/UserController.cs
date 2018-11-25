@@ -27,21 +27,9 @@ namespace MobFix.Controllers
             return Ok(userList);
         }
 
-        //// GET: api/User/5
-        //public IHttpActionResult GetUser(string userName, string password)
-        //{
-        //    var userRepo = new UserRepository();
-        //    var user = userRepo.GetUser(userName, password);
-        //    if(user == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return Ok(user);
-        //}
-
         // GET: api/User/5
         [HttpPost]
-        public IHttpActionResult GetUser([FromBody]User user)
+        public IHttpActionResult GetUser([FromBody]GetUser user)
         {
             var userRepo = new UserRepository();
             var getuser = userRepo.GetUser(user);
@@ -62,6 +50,18 @@ namespace MobFix.Controllers
                 return Ok("Error occurred while inserting the New User Details");
             }
             return Ok("New User Details inserted");
+        }
+
+        [HttpPost]
+        public IHttpActionResult UserStatusDetails([FromBody]User user)
+        {
+            var userRepo = new UserRepository();
+            var result = userRepo.UserStatusDetails(user);
+            if (result <= 0)
+            {
+                return Ok("Status 400");
+            }
+            return Ok("Status 200");
         }
 
         [HttpPut]

@@ -25,15 +25,16 @@ namespace MobFix.Controllers
         }
 
         // GET: api/ContactStatus/5
-        public IHttpActionResult GetContactStatus(string ContactStatus, string ContactStatusDescription)
+        [HttpPost]
+        public IHttpActionResult GetContactStatus([FromBody]ContactStatus contactStatus)
         {
             var contactstatusRepo = new ContactStatusRepository();
-            var contactstatus = contactstatusRepo.GetContactStatus(ContactStatus, ContactStatusDescription);
-            if (contactstatus == null)
+            var getContactStatus = contactstatusRepo.GetContactStatus(contactStatus);
+            if (getContactStatus == null)
             {
                 return NotFound();
             }
-            return Ok(contactstatus);
+            return Ok(getContactStatus);
         }
 
         // PUT: api/ContactStatus/5
@@ -49,7 +50,7 @@ namespace MobFix.Controllers
             }
             return Ok("Contact Status updated");
         }
-        [HttpDelete]
+        /*[HttpDelete]
         public IHttpActionResult DeleteContactStatus([FromBody]ContactStatus contactstatus)
         {
             var contactstatusRepo = new ContactStatusRepository();
@@ -60,6 +61,6 @@ namespace MobFix.Controllers
             }
             return Ok("Deleted Contact status");
 
-        }
+        }*/
     }
 }

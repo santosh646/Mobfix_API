@@ -14,12 +14,12 @@ namespace MobFix.Repositories
         MySqlContactStatusHelper MySqlContactStatusHelper = new MySqlContactStatusHelper();
 
 
-        public ContactStatus GetContactStatus(ContactStatus contactStatus)
+        public ContactStatus GetContactStatus(string ContactStatus, string ContactStatusDescription)
         {
-            string fetchContactStatus = $"SELECT * FROM Mobifix_DB.CONTACT_STATUS WHERE LOWER (CONTACT_STATUS_CD) = '{contactStatus.Contactstatus.ToString() }'";
+            string fetchContactStatus = $"SELECT * FROM Mobifix_DB.CONTACT_STATUS WHERE LOWER CONTACT_STATUS_CD  () = '{ ContactStatus.ToString() }'";
             var dtResult = MySqlContactStatusHelper.ExecuteQuery(fetchContactStatus);
-            var getContactStatus = FillContactStatusModel(dtResult);
-            return getContactStatus.FirstOrDefault<ContactStatus>();
+            var contactstatus = FillContactStatusModel(dtResult);
+            return contactstatus.FirstOrDefault<ContactStatus>();
 
         }
 
@@ -34,7 +34,7 @@ namespace MobFix.Repositories
 
         public int UpdateContactStatus(ContactStatus contactstatus)
         {
-            string updateContactStatusInfo = $"UPDATE Mobifix_DB.CONTACT_STATUS SET CONTACT_STATUS_DESC = '{contactstatus.ContactStatusDescription}' WHERE LOWER(CONTACT_STATUS_CD) = '{contactstatus.Contactstatus.ToString()}' ";
+            string updateContactStatusInfo = $"UPDATE Mobifix_DB.CONTACT_STATUS SET CONTACT_STATUS_DESC = '{contactstatus.ContactStatusDescription}' WHERE LOWER(CONTACT_STATUS_CD) = '{contactstatus.ContactStatusCD.ToString()}' ";
             return MySqlContactStatusHelper.ExecuteNonQuery(updateContactStatusInfo);
         }
 
@@ -47,7 +47,7 @@ namespace MobFix.Repositories
                 {
                     var contactstatus = new ContactStatus();
                     
-                    contactstatus.Contactstatus = Convert.ToString (row["CONTACT_STATUS_CD"]);
+                    contactstatus.ContactStatusCD = Convert.ToString (row["CONTACT_STATUS_CD"]);
                     contactstatus.ContactStatusDescription = Convert.ToString(row["CONTACT_STATUS_DESC"]);
 
                     contactstatusList.Add(contactstatus);
@@ -56,11 +56,11 @@ namespace MobFix.Repositories
             return contactstatusList;
         }
 
-       /* public int DeleteContactStatus(ContactStatus contactstatus)
+        public int DeleteContactStatus(ContactStatus contactstatus)
         {
             string updateContactStatusInfo = $"DELETE FROM Mobifix_DB.CONTACT_STATUS  WHERE LOWER(CONTACT_STATUS_CD) = '{contactstatus.ContactStatusCD.ToString()}' ";
             return MySqlContactStatusHelper.ExecuteNonQuery(updateContactStatusInfo);
-        }*/
+        }
 
     }
 }

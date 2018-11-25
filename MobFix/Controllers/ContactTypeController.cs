@@ -25,15 +25,16 @@ namespace MobFix.Controllers
         }
 
         // GET: api/ContactType/5
-        public IHttpActionResult GetContactType(int ContactTypeID, string ContactTypeDescription)
+        [HttpPost]
+        public IHttpActionResult GetContactType([FromBody]ContactType contactType)
         {
             var contacttypeRepo = new ContactTypeRepository();
-            var contacttype = contacttypeRepo.GetContactType(ContactTypeID, ContactTypeDescription);
-            if (contacttype == null)
+            var getcontacttype = contacttypeRepo.GetContactType(contactType);
+            if (getcontacttype == null)
             {
                 return NotFound();
             }
-            return Ok(contacttype);
+            return Ok(getcontacttype);
         }
         [HttpPut]
         public IHttpActionResult UpdateContactTypeStatus([FromBody]ContactType contacttype)

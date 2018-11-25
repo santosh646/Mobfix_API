@@ -25,15 +25,16 @@ namespace MobFix.Controllers
         }
 
         // GET: api/CustomerInfo/5
-        public IHttpActionResult GetCustomerInfo(int CustInfoID, int CustVendorAdminID)
+        [HttpPost]
+        public IHttpActionResult GetCustomerInfo([FromBody]Cust_Info customerinfo)
         {
             var custinfoRepo = new CustomerInfoRepository();
-            var customerinfo = custinfoRepo.GetCustomerInfo(CustInfoID, CustVendorAdminID);
-            if (customerinfo == null)
+            var getcustomerinfo = custinfoRepo.GetCustomerInfo(customerinfo);
+            if (getcustomerinfo == null)
             {
                 return NotFound();
             }
-            return Ok(customerinfo);
+            return Ok(getcustomerinfo);
         }
 
         [HttpPut]
