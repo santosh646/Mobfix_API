@@ -40,19 +40,6 @@ namespace MobFix.Controllers
             return Ok(getusertype);
         }
 
-        [HttpPost]
-        public IHttpActionResult InsertUserRegistrationDetails([FromBody]UserTypes usertype)
-        {
-            var usertypeRepo = new UserTypesRepository();
-            var result = usertypeRepo.InsertUserRegistrationDetails(usertype);
-            if (result <= 0)
-            {
-                return Ok("Error occurred while inserting the New User Registration Details");
-            }
-            return Ok("New User Registration Details Inserted");
-        }
-
-
         [HttpPut]
         public IHttpActionResult UpdateUserTypeStatus([FromBody]UserTypes usertype)
         {

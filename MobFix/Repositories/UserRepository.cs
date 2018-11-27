@@ -50,6 +50,15 @@ namespace MobFix.Repositories
             return mySqlHelper.ExecuteNonQuery(InsertUserInfo);
         }
 
+        public int InsertUserRegistrationDetails(User user)
+        {
+            string InsertUserregistrationInfo = $"INSERT INTO Mobifix_DB.USER_TBL(FK_USER_TYPE_ID, LOGIN_ID, LOGIN_PWD, NUM_OF_FAILED_ATTEMPTS, LAST_LOGIN_DT, FK_USER_STATUS_CD, CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY)" +
+                $" VALUES({user.UserType}, '{user.LoginId}', '{user.Password}', {user.NoOfAttempts},  NOW(), '{user.UserStatus}', NOW(), {user.CrearedBy},NOW(), {user.LastUpdateBy});";
+
+            InsertUserregistrationInfo += $"INSERT INTO Mobifix_DB.CUST_PHONE(FK_CUST_VEND_ADMIN_ID, FK_CONTACT_TYPE_ID, CONTACT_NUMBER, FK_CONTACT_STATUS_CD, CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY) " +
+                 $"Select LAST_INSERT_ID(),{user.ContactPhoneID}, {user.ContactNumber} ,'{user.ContactStatus}', NOW(), {user.AddByUserID}, NOW(), {user.ChangedByID}";
+            return mySqlHelper.ExecuteNonQuery(InsertUserregistrationInfo);
+        }
 
         public int UserStatusDetails(User user)
         {
@@ -66,11 +75,15 @@ namespace MobFix.Repositories
                 foreach (DataRow row in dtUsers.Rows)
                 {
                     var user = new GetUser();
+                    user.Id = Convert.ToString(row["CUST_VEND_ADMIN_ID"]);
+                    user.FirstName = row["FIRST_NAME"].ToString();
+                    user.LastName = row["LAST_NAME"].ToString();
                     user.LoginId = row["LOGIN_ID"].ToString();
-                   
-              
+                    user.UserType = Convert.ToString(row["FK_USER_TYPE_ID"]);
                     user.ContactNumber = Convert.ToString(row["CONTACT_NUMBER"]);
                     user.UserType = row["FK_USER_TYPE_ID"].ToString();
+                    user.AddressLine1 = row["ADDR_LINE1"].ToString();
+                    user.AddressLine2 = row["ADDR_LINE2"].ToString();
                     user.NoOfAttempts = Convert.ToInt32(row["NUM_OF_FAILED_ATTEMPTS"]);
                     user.LastLoginDate = Convert.ToDateTime(row["LAST_LOGIN_DT"]);
                     UserStatus userStatus;
@@ -79,12 +92,15 @@ namespace MobFix.Repositories
                         //need to fix
                         user.UserStatus = row["FK_USER_STATUS_CD"].ToString();
                     }
+                    user.CreatedDate = Convert.ToDateTime(row["CREATED_DATE"].ToString());
+                    user.CrearedBy = row["CREATED_BY"].ToString();
+                    user.LastUpdateDate = Convert.ToDateTime(row["LASTMODIFIED_DATE"]);
+                    user.LastUpdateBy = row["LASTMODIFIED_BY"].ToString();
                     userList.Add(user);
                 }
             }
             return userList;
         }
-
 
         private IList<User> FillUserModel(DataTable dtUsers)
         {
@@ -94,8 +110,9 @@ namespace MobFix.Repositories
                 foreach (DataRow row in dtUsers.Rows)
                 {
                     var user = new User();
-                    user.LoginId = row["LOGIN_ID"].ToString();
+                    user.Id = Convert.ToString(row["CUST_VEND_ADMIN_ID"]);
                     user.UserType = row["FK_USER_TYPE_ID"].ToString();
+                    user.LoginId = row["LOGIN_ID"].ToString();
                     user.NoOfAttempts = Convert.ToInt32(row["NUM_OF_FAILED_ATTEMPTS"]);
                     user.LastLoginDate = Convert.ToDateTime(row["LAST_LOGIN_DT"]);
                     UserStatus userStatus;
@@ -104,7 +121,13 @@ namespace MobFix.Repositories
                         //need to fix
                         user.UserStatus = row["FK_USER_STATUS_CD"].ToString();
                     }
-                     userList.Add(user);
+                    user.CreatedDate = Convert.ToDateTime(row["CREATED_DATE"].ToString());
+                    user.CrearedBy = row["CREATED_BY"].ToString();
+                    user.LastUpdateDate = Convert.ToDateTime(row["LASTMODIFIED_DATE"]);
+                    user.LastUpdateBy = row["LASTMODIFIED_BY"].ToString();
+                    user.ContactPhoneID = Convert.ToInt32(row["FK_NOCONS_CUST_PHONE_ID"]);
+                    user.ContactNumber = row["CONTACT_NUMBER"].ToString();
+                    userList.Add(user);
                 }
             }
             return userList;
@@ -120,24 +143,15 @@ namespace MobFix.Repositories
                     var user = new getAllUsers();
                     user.customeradminid = Convert.ToInt32(row["CUST_VEND_ADMIN_ID"]);
                     user.fullname = Convert.ToString(row["FULL_NAME"]);
-                    //user.OrderPlacedDate = Convert.ToDateTime(row["ORDER_PLACED_DATE"]);
-                    //user.ContactPhoneID = Convert.ToInt32(row["FK_NOCONS_CUST_PHONE_ID"]);
-                    //user.Add(user);
                     user.LoginId = row["LOGIN_ID"].ToString();
                     user.ContactNumber = Convert.ToString(row["CONTACT_NUMBER"]);
-                    //UserType userType;
-                    //if (Enum.TryParse<UserType>(row["FK_USER_TYPE_ID"].ToString(), out userType))
-                    //{
-                    //    user.UserType = userType.ToString();
-                    //}
-                    //user.NoOfAttempts = Convert.ToInt32(row["NUM_OF_FAILED_ATTEMPTS"]);
-                    // user.LastLoginDate = Convert.ToDateTime(row["LAST_LOGIN_DT"]);
                     UserStatus userStatus;
                     if (Enum.TryParse<UserStatus>(row["FK_USER_STATUS_CD"].ToString(), out userStatus))
                     {
                         //need to fix
                         user.UserStatus = row["FK_USER_STATUS_CD"].ToString();
                     }
+
                     userList.Add(user);
                 }
             }
