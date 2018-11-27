@@ -17,7 +17,7 @@ namespace MobFix.Repositories
         public GetUser GetUser(GetUser user)
         {
             //string fetchUser = $"SELECT * FROM Mobifix_DB.USER_TBL WHERE LOWER(LOGIN_ID) = { loginID.ToLower() } AND LOGIN_PWD = { pwd }";
-            string fetchUser = $"SELECT * FROM Mobifix_DB.USER_TBL WHERE LOWER(LOGIN_ID) = '{user.LoginId.ToLowerInvariant()}' ";
+            string fetchUser = $"SELECT CUST_VEND_ADMIN_ID, FIRST_NAME, LAST_NAME,  LOGIN_ID, FK_USER_TYPE_ID, FK_USER_STATUS_CD, CONTACT_NUMBER, ADDR_LINE1, ADDR_LINE2, NUM_OF_FAILED_ATTEMPTS, LAST_LOGIN_DT, FK_USER_STATUS_CD from USER_TBL U INNER JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID=U.CUST_VEND_ADMIN_ID INNER JOIN CUST_PHONE cp ON cp.FK_CUST_VEND_ADMIN_ID=U.CUST_VEND_ADMIN_ID INNER JOIN CUST_ADDRESS ca ON ca.FK_CUST_VEND_ADMIN_ID=U.CUST_VEND_ADMIN_ID WHERE LOWER(LOGIN_ID) = '{user.LoginId.ToLowerInvariant()}' ";
             var dtResult = mySqlHelper.ExecuteQuery(fetchUser);
             var getuser = FillGetUserModel(dtResult);
             return getuser.FirstOrDefault<GetUser>();
@@ -62,7 +62,7 @@ namespace MobFix.Repositories
 
         public int UserStatusDetails(User user)
         {
-            string StatusUserInfo = $"SELECT LOGIN_ID = '{user.LoginId}', LOGIN_PWD = '{user.Password}' FROM Mobifix_DB.USER_TBL WHERE CUST_VEND_ADMIN_ID = '{user.Id}'";
+            string StatusUserInfo = $"SELECT CUST_VEND_ADMIN_ID = '{user.Id}', LOGIN_ID = '{user.LoginId}', LOGIN_PWD = '{user.Password}' FROM Mobifix_DB.USER_TBL WHERE CUST_VEND_ADMIN_ID = '{user.Id}'";
 
             return mySqlHelper.ExecuteNonQuery(StatusUserInfo);
         }
@@ -81,7 +81,6 @@ namespace MobFix.Repositories
                     user.LoginId = row["LOGIN_ID"].ToString();
                     user.UserType = Convert.ToString(row["FK_USER_TYPE_ID"]);
                     user.ContactNumber = Convert.ToString(row["CONTACT_NUMBER"]);
-                    user.UserType = row["FK_USER_TYPE_ID"].ToString();
                     user.AddressLine1 = row["ADDR_LINE1"].ToString();
                     user.AddressLine2 = row["ADDR_LINE2"].ToString();
                     user.NoOfAttempts = Convert.ToInt32(row["NUM_OF_FAILED_ATTEMPTS"]);
@@ -92,10 +91,10 @@ namespace MobFix.Repositories
                         //need to fix
                         user.UserStatus = row["FK_USER_STATUS_CD"].ToString();
                     }
-                    user.CreatedDate = Convert.ToDateTime(row["CREATED_DATE"].ToString());
-                    user.CrearedBy = row["CREATED_BY"].ToString();
-                    user.LastUpdateDate = Convert.ToDateTime(row["LASTMODIFIED_DATE"]);
-                    user.LastUpdateBy = row["LASTMODIFIED_BY"].ToString();
+                    //user.CreatedDate = Convert.ToDateTime(row["CREATED_DATE"].ToString());
+                    //user.CrearedBy = row["CREATED_BY"].ToString();
+                    //user.LastUpdateDate = Convert.ToDateTime(row["LASTMODIFIED_DATE"]);
+                    //user.LastUpdateBy = row["LASTMODIFIED_BY"].ToString();
                     userList.Add(user);
                 }
             }
