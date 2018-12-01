@@ -14,14 +14,32 @@ namespace MobFix.Repositories
     {
         MySqlHelper mySqlHelper = new MySqlHelper();
         
+        //public GetUser GetUser(GetUser user)
+        //{
+        //    //string fetchUser = $"SELECT * FROM Mobifix_DB.USER_TBL WHERE LOWER(LOGIN_ID) = { loginID.ToLower() } AND LOGIN_PWD = { pwd }";
+        //    string fetchUser = $"SELECT * FROM Mobifix_DB.USER_TBL WHERE LOWER(LOGIN_ID) = '{user.LoginId.ToLowerInvariant()}' ";
+        //    var dtResult = mySqlHelper.ExecuteQuery(fetchUser);
+        //    var getuser = FillGetUserModel(dtResult);
+        //    return getuser.FirstOrDefault<GetUser>();
+        //}
         public GetUser GetUser(GetUser user)
         {
             //string fetchUser = $"SELECT * FROM Mobifix_DB.USER_TBL WHERE LOWER(LOGIN_ID) = { loginID.ToLower() } AND LOGIN_PWD = { pwd }";
-            string fetchUser = $"SELECT * FROM Mobifix_DB.USER_TBL WHERE LOWER(LOGIN_ID) = '{user.LoginId.ToLowerInvariant()}' ";
+            string fetchUser = $"SELECT FIRST_NAME, LAST_NAME,CONTACT_NUMBER,LOGIN_ID,LOGIN_PWD,ADDR_LINE1, ADDR_LINE2,CITY,STATE,COUNTRY, ZIP_CODE from USER_TBL U INNER JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID=U.CUST_VEND_ADMIN_ID INNER JOIN CUST_PHONE cp ON cp.FK_CUST_VEND_ADMIN_ID=U.CUST_VEND_ADMIN_ID INNER JOIN CUST_ADDRESS ca ON ca.FK_CUST_VEND_ADMIN_ID=U.CUST_VEND_ADMIN_ID  WHERE LOWER(LOGIN_ID) = '{user.LoginId.ToLowerInvariant()}'  ";
             var dtResult = mySqlHelper.ExecuteQuery(fetchUser);
             var getuser = FillGetUserModel(dtResult);
             return getuser.FirstOrDefault<GetUser>();
         }
+
+        public GetPassword GetPassword(GetPassword password)
+        {
+            //string fetchUser = $"SELECT * FROM Mobifix_DB.USER_TBL WHERE LOWER(LOGIN_ID) = { loginID.ToLower() } AND LOGIN_PWD = { pwd }";
+            string fetchUser = $"SELECT LOGIN_PWD from USER_TBL  WHERE LOWER(LOGIN_ID) = '{password.LoginId.ToLowerInvariant()}'  ";
+            var dtResult = mySqlHelper.ExecuteQuery(fetchUser);
+            var getpassword = FillGetPasswordModel(dtResult);
+            return getpassword.FirstOrDefault<GetPassword>();
+        }
+
 
         public IList<getAllUsers> GetAllUsers()
         {
@@ -66,19 +84,36 @@ namespace MobFix.Repositories
                 foreach (DataRow row in dtUsers.Rows)
                 {
                     var user = new GetUser();
-                    user.LoginId = row["LOGIN_ID"].ToString();
-                   
-              
+                    user.FirstName = Convert.ToString(row["FIRST_NAME"]);
+                    user.LastName = Convert.ToString(row["LAST_NAME"]);
                     user.ContactNumber = Convert.ToString(row["CONTACT_NUMBER"]);
-                    user.UserType = row["FK_USER_TYPE_ID"].ToString();
-                    user.NoOfAttempts = Convert.ToInt32(row["NUM_OF_FAILED_ATTEMPTS"]);
-                    user.LastLoginDate = Convert.ToDateTime(row["LAST_LOGIN_DT"]);
-                    UserStatus userStatus;
-                    if (Enum.TryParse<UserStatus>(row["FK_USER_STATUS_CD"].ToString(), out userStatus))
-                    {
-                        //need to fix
-                        user.UserStatus = row["FK_USER_STATUS_CD"].ToString();
-                    }
+                    user.LoginId = Convert.ToString(row["LOGIN_ID"]);
+                    user.Password = Convert.ToString(row["LOGIN_PWD"]);
+                    user.AddressLine1 = Convert.ToString(row["ADDR_LINE1"]);
+                    user.AddressLine2 = Convert.ToString(row["ADDR_LINE2"]);
+                    user.City = Convert.ToString(row["CITY"]);
+                    user.State = Convert.ToString(row["STATE"]);
+                    user.Country = Convert.ToString(row["COUNTRY"]);
+                    user.ZIPCode = Convert.ToString(row["ZIP_CODE"]);
+
+
+                    
+                    userList.Add(user);
+                }
+            }
+            return userList;
+        }
+
+        private IList<GetPassword> FillGetPasswordModel(DataTable dtUsers)
+        {
+            var userList = new List<GetPassword>();
+            if (null != dtUsers && dtUsers.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtUsers.Rows)
+                {
+                    var user = new GetPassword();                                       
+                    user.Password = Convert.ToString(row["LOGIN_PWD"]);
+                  
                     userList.Add(user);
                 }
             }
