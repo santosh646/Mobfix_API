@@ -68,6 +68,18 @@ namespace MobFix.Controllers
         }
 
         [HttpPost]
+        public IHttpActionResult InsertUserRegistrationDetails([FromBody]User user)
+        {
+            var userRepo = new UserRepository();
+            var result = userRepo.InsertUserRegistrationDetails(user);
+            if (result <= 0)
+            {
+                return Ok("Error occurred while inserting the New User Registration Details");
+            }
+            return Ok("New User Registration Details Inserted");
+        }
+
+        [HttpPost]
         public IHttpActionResult UserStatusDetails([FromBody]User user)
         {
             var userRepo = new UserRepository();
@@ -92,6 +104,7 @@ namespace MobFix.Controllers
         }
 
         // DELETE: api/User/Delete
+        [HttpDelete]
         public void Delete(string Id)
         {
         }

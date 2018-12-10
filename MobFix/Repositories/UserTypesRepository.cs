@@ -31,16 +31,6 @@ namespace MobFix.Repositories
 
         }
 
-        public int InsertUserRegistrationDetails(UserTypes usertype)
-        {
-            string InsertUserregistrationInfo = $"INSERT INTO Mobifix_DB.USER_TBL(FK_USER_TYPE_ID, LOGIN_ID, LOGIN_PWD, NUM_OF_FAILED_ATTEMPTS, LAST_LOGIN_DT, FK_USER_STATUS_CD, CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY)" +
-                $" VALUES({usertype.UserType}, '{usertype.LoginId}', '{usertype.Password}', {usertype.NoOfAttempts},  NOW(), '{usertype.UserStatus}', NOW(), {usertype.CrearedBy},NOW(), {usertype.LastUpdateBy});";
-
-            InsertUserregistrationInfo += $"INSERT INTO Mobifix_DB.CUST_PHONE(FK_CUST_VEND_ADMIN_ID, FK_CONTACT_TYPE_ID, CONTACT_NUMBER, FK_CONTACT_STATUS_CD, CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY) " +
-                 $"Select LAST_INSERT_ID(),{usertype.ContactPhoneID}, {usertype.ContactNumber} ,'{usertype.ContactStatus}', NOW(), {usertype.AddByUserID}, NOW(), {usertype.ChangedByID}";
-            return MySqlUserTypesHelper.ExecuteNonQuery(InsertUserregistrationInfo);
-        }
-
         public int UpdateUserTypeStatus(UserTypes usertype)
         {
             string updateUserTypeInfo = $"UPDATE Mobifix_DB.USER_TYPE SET USER_ROLE = '{usertype.UserRole}' WHERE LOWER(USER_TYPE_ID) = '{usertype.UserTypeID.ToString()}' ";
