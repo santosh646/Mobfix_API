@@ -111,9 +111,9 @@ namespace MobFix.Repositories
             {
                 foreach (DataRow row in dtUsers.Rows)
                 {
-                    var user = new GetPassword();                                       
-                    user.Password = Convert.ToString(row["LOGIN_PWD"]);
-                  
+                    var user = new GetPassword();    
+                    
+                     user.Password = Convert.ToString(row["LOGIN_PWD"]);
                     userList.Add(user);
                 }
             }

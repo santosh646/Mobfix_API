@@ -24,5 +24,29 @@ namespace MobFix.Repositories
             return mySqlHelper.ExecuteNonQuery(InsertVendorregistrationInfo);
         }
 
+        public GetVendorPassword GetVendorPassword(GetVendorPassword getpassword)
+        {
+            //string fetchUser = $"SELECT * FROM Mobifix_DB.USER_TBL WHERE LOWER(LOGIN_ID) = { loginID.ToLower() } AND LOGIN_PWD = { pwd }";
+            string fetchUser = $"SELECT LOGIN_PWD from USER_TBL  WHERE LOWER(LOGIN_ID) = '{getpassword.LoginId.ToLowerInvariant()}'  ";
+            var dtResult = mySqlHelper.ExecuteQuery(fetchUser);
+            var getvendorpassword = FillGetVendorPasswordModel(dtResult);
+            return getvendorpassword.FirstOrDefault<GetVendorPassword>();
+            
+        }
+        private IList<GetVendorPassword> FillGetVendorPasswordModel(DataTable dtUsers)
+        {
+            var userList = new List<GetVendorPassword>();
+            if (null != dtUsers && dtUsers.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtUsers.Rows)
+                {
+                    var user = new GetVendorPassword();
+
+                    user.Password = Convert.ToString(row["LOGIN_PWD"]);
+                    userList.Add(user);
+                }
+            }
+            return userList;
+        }
     }
 }

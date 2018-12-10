@@ -29,4 +29,9 @@ namespace MobFix.Models
         public int ChangedByID;
 
     }
+    public class GetVendorPassword
+    {
+        public string LoginId;
+        public string Password;
+    }
 }
