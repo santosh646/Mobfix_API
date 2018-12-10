@@ -42,4 +42,9 @@ namespace MobFix.Models
         public DateTime AddDate;
         public int AddedByUserID;
     }
+    public class GetVendorPassword
+    {
+        public string LoginId;
+        public string Password;
+    }
 }
