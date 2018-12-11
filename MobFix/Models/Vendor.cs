@@ -34,4 +34,9 @@ namespace MobFix.Models
         public string LoginId;
         public string Password;
     }
+    public class GetVendorPassword
+    {
+        public string LoginId;
+        public string Password;
+    }
 }

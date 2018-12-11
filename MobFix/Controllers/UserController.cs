@@ -16,7 +16,7 @@ namespace MobFix.Controllers
     {
         // GET: api/User
         public IHttpActionResult GetAllUsers()
-        {
+     {
             var userRepo = new UserRepository();
             var userList = userRepo.GetAllUsers();
             if(userList == null || userList.Count ==0)
@@ -33,11 +33,26 @@ namespace MobFix.Controllers
         {
             var userRepo = new UserRepository();
             var getuser = userRepo.GetUser(user);
+            
             if (getuser == null)
             {
                 return NotFound();
             }
             return Ok(getuser);
+        }
+
+        // GET: api/User/5
+        [HttpPost]
+        public IHttpActionResult GetPassword([FromBody]GetPassword password)
+        {
+            var userRepo = new UserRepository();
+            var getpassword = userRepo.GetPassword(password);
+
+            if (getpassword == null)
+            {
+                return NotFound();
+            }
+            return Ok(getpassword);
         }
 
         [HttpPost]
