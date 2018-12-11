@@ -11,6 +11,7 @@ namespace MobFix.Models
         public int CustVendorAdminID { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string FullName { get; set; }
         public string NamePrefix { get; set; }
         public string Gender { get; set; }
         public DayOfWeek DateOfBirth { get; set; }

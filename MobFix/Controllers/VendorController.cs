@@ -11,7 +11,7 @@ namespace MobFix.Controllers
 {
     public class VendorController : ApiController
     {
-        [HttpPost]
+               [HttpPost]
         public IHttpActionResult InsertVendorRegistrationDetails([FromBody]Vendor vendor)
        {
             var vendorRepo = new VendorRepository();
@@ -22,17 +22,18 @@ namespace MobFix.Controllers
             }
             return Ok("New Vendor Registration Details Inserted");
         }
-
+        // GET: api/User/5
         [HttpPost]
-        public IHttpActionResult InsertVendorDetails([FromBody]Vendor vendor)
+        public IHttpActionResult GetVendorPassword([FromBody]GetVendorPassword getpassword)
         {
             var vendorRepo = new VendorRepository();
-            var result = vendorRepo.InsertVendorDetails(vendor);
-            if (result <= 0)
+            var getvendorpassword = vendorRepo.GetVendorPassword(getpassword);
+
+            if (getvendorpassword == null)
             {
-                return Ok("Error occurred while inserting the New Vendor Details");
+                return NotFound();
             }
-            return Ok("New Vendor Details inserted");
+            return Ok(getvendorpassword);
         }
     }
 }

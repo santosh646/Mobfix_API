@@ -23,15 +23,15 @@ namespace MobFix.Repositories
             return getorders.FirstOrDefault<getorder>();
             
         }
-        public Order getemailOrder(String emailid)
+        public Order getemailOrder(Order order)
         {
            // UPDATE Mobifix_DB.ORDER_TABLE SET FK_NOCONS_CUST_PHONE_ID = '{order.ContactPhoneID}' WHERE LOWER(ORDER_ID) = '{order.OrderID.ToString()}'
             //string fetchOrder = $"SELECT * FROM Mobifix_DB.ORDER_TABLE WHERE LOWER ORDER_ID() = '{ OrderID.ToString() }'";
-            string fetchOrder = $"SELECT * FROM ORDER_TABLE ot INNER JOIN USER_TBL ut ON ut.CUST_VEND_ADMIN_ID=ot.FK_CUST_VEND_ADMIN_ID WHERE ut.LOGIN_ID='{emailid}'";
+            string fetchOrder = $"SELECT * FROM ORDER_TABLE ot INNER JOIN USER_TBL ut ON ut.CUST_VEND_ADMIN_ID=ot.FK_CUST_VEND_ADMIN_ID WHERE LOWER(LOGIN_ID) = '{order.LoginId.ToLowerInvariant()}' ";
 
             var dtResult = MySqlOrderHelper.ExecuteQuery(fetchOrder);
-            var order = FillOrderModel(dtResult);
-            return order.FirstOrDefault<Order>();
+            var orderemail = FillOrderModel(dtResult);
+            return orderemail.FirstOrDefault<Order>();
 
         }
 

@@ -27,19 +27,11 @@ namespace MobFix.Models
         public int AddByUserID;
         public DateTime ChangedDate;
         public int ChangedByID;
-         public int CustAddrID;
-        public int CustomerID;
-        public int ContactAddrID;
-        public string AddressLine1;
-        public string AddressLine2;
-        public string City;
-        public string State;
-        public string Country;
-        public int ZIPCode;
-        public string ContactStatusCD;
-        public DateTime ChangeDate;
-        public int ChangeByID;
-        public DateTime AddDate;
-        public int AddedByUserID;
+
+    }
+    public class GetVendorPassword
+    {
+        public string LoginId;
+        public string Password;
     }
 }

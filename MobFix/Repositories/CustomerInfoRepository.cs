@@ -46,7 +46,16 @@ namespace MobFix.Repositories
 
                     customerinfo.CustInfoID = Convert.ToInt32(row["CUST_INFO_ID"]);
                     customerinfo.CustVendorAdminID = Convert.ToInt32(row["FK_CUST_VEND_ADMIN_ID"]);
+                    customerinfo.FirstName = Convert.ToString(row["FIRST_NAME"]);
+                    customerinfo.LastName = Convert.ToString(row["LAST_NAME"]);
+                    customerinfo.FullName = Convert.ToString(row["FULL_NAME"]);
+                    customerinfo.NamePrefix = Convert.ToString(row["NAMEPREFIX"]);
+                    customerinfo.Gender = Convert.ToString(row["GENDER"]);
+                    //customerinfo.DateOfBirth=Convert
+                    customerinfo.CreatedDate = Convert.ToDateTime(row["CREATED_DATE"]);
                     customerinfo.CreatedBy = Convert.ToInt32(row["CREATED_BY"]);
+                    customerinfo.LastModifiedDate = Convert.ToDateTime(row["LASTMODIFIED_DATE"]);
+                    customerinfo.LastModifiedBy = Convert.ToInt32(row["LASTMODIFIED_BY"]);
 
                     customerinfoList.Add(customerinfo);
                 }
