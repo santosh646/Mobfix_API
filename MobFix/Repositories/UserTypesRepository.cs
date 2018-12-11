@@ -47,7 +47,7 @@ namespace MobFix.Repositories
                 {
                     var usertype = new UserTypes();
                     usertype.UserTypeID = Convert.ToInt32(row["USER_TYPE_ID"]);
-                   
+                    usertype.UserRole = Convert.ToString(row["USER_ROLE"]);
                     usertype.MaxLoginattempts = Convert.ToInt32(row["MAX_LOGIN_ATTEMPTS"]);
 
                     usertypesList.Add(usertype);

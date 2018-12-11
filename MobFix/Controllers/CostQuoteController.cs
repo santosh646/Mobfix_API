@@ -50,10 +50,10 @@ namespace MobFix.Controllers
 
         }
         [HttpDelete]
-        public IHttpActionResult DeleteContactTypeStatus([FromBody]ContactType contacttype)
+        public IHttpActionResult DeleteCostQuote([FromBody]Cost_Quote costquote)
         {
-            var contacttypeRepo = new ContactTypeRepository();
-            var result = contacttypeRepo.DeleteContactTypeStatus(contacttype);
+            var costquoteRepo = new CostQuoteRepository();
+            var result = costquoteRepo.DeleteCostQuote(costquote);
             if (result <= 0)
             {
                 return Ok("Error occurred while Deleting the contact type status");

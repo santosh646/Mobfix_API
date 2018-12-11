@@ -1,4 +1,4 @@
-﻿using MobFix.Helper;
+using MobFix.Helper;
 using MobFix.Models;
 using System;
 using System.Collections.Generic;
@@ -63,4 +63,5 @@ namespace MobFix.Repositories
 
         }
     }
+
 }

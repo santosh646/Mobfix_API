@@ -1,4 +1,4 @@
-﻿using MobFix.Models;
+using MobFix.Models;
 using MobFix.Repositories;
 using System;
 using System.Collections.Generic;

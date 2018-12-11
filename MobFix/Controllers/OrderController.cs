@@ -38,14 +38,13 @@ namespace MobFix.Controllers
             }
             return Ok(getorders);
         }
-        [HttpGet]
-        [Route("Order/{emailid}")]
-        // GET: api/Order/'testAdmin1@gmail.com'  
-        public IHttpActionResult getemailOrder(String emailid)
+        [HttpPost]
+          
+        public IHttpActionResult getemailOrder([FromBody]Order order)
         {
             var orderRepo = new OrderRepository();
-            var order = orderRepo.getemailOrder(emailid);
-            if (order == null)
+            var orderemail = orderRepo.getemailOrder(order);
+            if (orderemail == null)
             {
                 return NotFound();
             }
