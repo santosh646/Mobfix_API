@@ -35,6 +35,7 @@ namespace MobFix.Controllers
                 return NotFound();
             }
             return Ok(getvendorpassword);
+        }
 
         [HttpPost]
         public IHttpActionResult InsertVendorDetails([FromBody]Vendor vendor)
