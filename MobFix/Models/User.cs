@@ -81,7 +81,18 @@ namespace MobFix.Models
     }
     public class GetPassword
     {
+        public string Id;
+        public string UserType;
         public string LoginId;
         public string Password;
+        public int NoOfAttempts;
+        public DateTime LastLoginDate;
+        public string UserStatus;
+        public string FirstName;
+        public string LastName;
+        public string ContactNumber;
+        public string AddressLine1;
+        public string AddressLine2;
+
     }
 }

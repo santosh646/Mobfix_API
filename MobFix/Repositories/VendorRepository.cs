@@ -48,7 +48,7 @@ namespace MobFix.Repositories
                 }
             }
             return userList;
-
+        }
         public int InsertVendorDetails(Vendor vendor)
         {
             string InsertVendorInfo = $"INSERT INTO Mobifix_DB.USER_TBL(FK_USER_TYPE_ID, LOGIN_ID, LOGIN_PWD, NUM_OF_FAILED_ATTEMPTS, LAST_LOGIN_DT, FK_USER_STATUS_CD, CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY)" +
