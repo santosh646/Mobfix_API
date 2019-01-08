@@ -90,6 +90,19 @@ namespace MobFix.Controllers
             }
             return Ok("Status 200");
         }
+        [HttpPost]
+        public IHttpActionResult UserNameStatus([FromBody]GetUser getuser)
+        {
+            var userRepo = new UserRepository();
+            var result = userRepo.UserNameStatus(getuser);
+            if (result <= 0)
+            {
+                return Ok("User Name and Password does not match.");
+            }
+            return Ok("Ok");
+        }
+
+
 
         [HttpPut]
         public IHttpActionResult UpdateUserStatus([FromBody]User user)
