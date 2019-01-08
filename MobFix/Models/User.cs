@@ -42,7 +42,7 @@ namespace MobFix.Models
         public int ChangeByID;
         public DateTime AddDate;
         public int AddedByUserID;
-
+        public string FirstName;
     }
 
     public class GetUser
