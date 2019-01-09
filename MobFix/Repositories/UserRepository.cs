@@ -89,7 +89,7 @@ namespace MobFix.Repositories
 
         public IList<GetUser> UserNameStatus(GetUser getuser)
         {
-            string UserNameStatusInfo = $"SELECT FIRST_NAME, LAST_NAME, CONTACT_NUMBER, LOGIN_ID, LOGIN_PWD, ADDR_LINE1, ADDR_LINE2, CITY, STATE, COUNTRY, ZIP_CODE from USER_TBL U INNER JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID INNER JOIN CUST_PHONE cp ON cp.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID INNER JOIN CUST_ADDRESS ca ON ca.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID  WHERE LOWER(LOGIN_ID) = '{getuser.LoginId.ToLowerInvariant()}' and LOWER(LOGIN_PWD) ='{getuser.Password}'";
+            string UserNameStatusInfo = $"SELECT FIRST_NAME, LAST_NAME, CONTACT_NUMBER, LOGIN_ID, LOGIN_PWD, ADDR_LINE1, ADDR_LINE2, CITY, STATE, COUNTRY, ZIP_CODE   from USER_TBL U INNER JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID INNER JOIN CUST_PHONE cp ON cp.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID INNER JOIN CUST_ADDRESS ca ON ca.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID  WHERE LOWER(LOGIN_ID) = '{getuser.LoginId.ToLowerInvariant()}' and LOWER(LOGIN_PWD) ='{getuser.Password}'";
 
             var dtResult = mySqlHelper.ExecuteQuery(UserNameStatusInfo);
             var result = FillGetUserModel(dtResult);
