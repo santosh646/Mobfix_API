@@ -79,17 +79,7 @@ namespace MobFix.Controllers
             return Ok("New User Registration Details Inserted");
         }
 
-        [HttpPost]
-        public IHttpActionResult UserStatusDetails([FromBody]User user)
-        {
-            var userRepo = new UserRepository();
-            var result = userRepo.UserStatusDetails(user);
-            if (result <= 0)
-            {
-                return Ok("Status 400");
-            }
-            return Ok("Status 200");
-        }
+
         [HttpPost]
         public IHttpActionResult UserNameStatus([FromBody]GetUser getuser)
         {
@@ -97,9 +87,9 @@ namespace MobFix.Controllers
             var result = userRepo.UserNameStatus(getuser);
             if (result == null || result.Count == 0)
             {
-                return Ok("User Name and Password does not match.");
+                return NotFound();
             }
-            return Ok("UserName and Password matches");
+            return Ok(result);
         }
 
         [HttpPut]
