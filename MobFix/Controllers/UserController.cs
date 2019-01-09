@@ -95,14 +95,12 @@ namespace MobFix.Controllers
         {
             var userRepo = new UserRepository();
             var result = userRepo.UserNameStatus(getuser);
-            if (result <= 0)
+            if (result == null || result.Count == 0)
             {
                 return Ok("User Name and Password does not match.");
             }
-            return Ok("Ok");
+            return Ok("UserName and Password matches");
         }
-
-
 
         [HttpPut]
         public IHttpActionResult UpdateUserStatus([FromBody]User user)
