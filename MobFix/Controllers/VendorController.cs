@@ -22,6 +22,20 @@ namespace MobFix.Controllers
             }
             return Ok("New Vendor Registration Details Inserted");
         }
+
+
+        [HttpPost]
+        public IHttpActionResult VendorNameStatus([FromBody]GetVendor getvendor)
+        {
+            var vendorRepo = new VendorRepository();
+            var result = vendorRepo.VendorNameStatus(getvendor);
+            if (result == null || result.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
         // GET: api/User/5
         [HttpPost]
         public IHttpActionResult GetVendorPassword([FromBody]GetVendorPassword getpassword)

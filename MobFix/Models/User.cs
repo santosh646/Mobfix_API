@@ -43,6 +43,8 @@ namespace MobFix.Models
         public DateTime AddDate;
         public int AddedByUserID;
         public string FirstName;
+        public string LastName;
+        public string FullName;
     }
 
     public class GetUser

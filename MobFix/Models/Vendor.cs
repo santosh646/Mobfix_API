@@ -43,6 +43,31 @@ namespace MobFix.Models
         public int AddedByUserID;
 
     }
+    public class GetVendor
+    {
+        // public string Id;
+        public string FirstName;
+        public string LastName;
+        public string LoginId;
+        public string Password;
+        public string ContactNumber;
+        //public string UserType;
+        public string AddressLine1;
+        public string AddressLine2;
+        public string City;
+        public string State;
+        public string Country;
+        public string ZIPCode;
+        //public int NoOfAttempts;
+        //public DateTime LastLoginDate;
+        //public string UserStatus;
+        //public DateTime CreatedDate;
+        //public string CrearedBy;
+        //public DateTime LastUpdateDate;
+        //public string LastUpdateBy;
+
+    }
+
     public class GetVendorPassword
     {
         public string LoginId;

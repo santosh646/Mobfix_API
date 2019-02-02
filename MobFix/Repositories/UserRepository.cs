@@ -53,7 +53,9 @@ namespace MobFix.Repositories
 
         public int UpdateUserStatus(User user)
         {
-            string updateUserInfo = $"UPDATE Mobifix_DB.USER_TBL SET FK_USER_STATUS_CD = '{user.UserStatus}' WHERE LOWER(LOGIN_ID) = '{user.LoginId.ToLowerInvariant()}' ";
+
+            string updateUserInfo = $"UPDATE Mobifix_DB.USER_TBL ut INNER JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID=ut.CUST_VEND_ADMIN_ID INNER JOIN CUST_ADDRESS ca ON ut.CUST_VEND_ADMIN_ID=ca.FK_CUST_VEND_ADMIN_ID SET ci.FIRST_NAME='{user.FirstName}',ci.LAST_NAME='{user.LastName}',ci.FULL_NAME='{user.FullName}',ca.ADDR_LINE1='{user.AddressLine1}',ca.ADDR_LINE2='{user.AddressLine2}',ca.CITY='{user.City}',ca.STATE='{user.State}',ca.COUNTRY='{user.Country}',ca.ZIP_CODE='{user.ZIPCode}' WHERE LOWER(LOGIN_ID) = '{user.LoginId.ToLowerInvariant()}' ";
+            // string updateUserInfo = $"UPDATE Mobifix_DB.USER_TBL SET FK_USER_STATUS_CD = '{user.UserStatus}' WHERE LOWER(LOGIN_ID) = '{user.LoginId.ToLowerInvariant()}' ";
             return mySqlHelper.ExecuteNonQuery(updateUserInfo);
         }
 
@@ -88,10 +90,11 @@ namespace MobFix.Repositories
         }
 
         public IList<GetUser> UserNameStatus(GetUser getuser)
-        {
-            string UserNameStatusInfo = $"SELECT FIRST_NAME, LAST_NAME, CONTACT_NUMBER, LOGIN_ID, LOGIN_PWD, ADDR_LINE1, ADDR_LINE2, CITY, STATE, COUNTRY, ZIP_CODE   from USER_TBL U INNER JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID INNER JOIN CUST_PHONE cp ON cp.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID INNER JOIN CUST_ADDRESS ca ON ca.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID  WHERE LOWER(LOGIN_ID) = '{getuser.LoginId.ToLowerInvariant()}' and LOWER(LOGIN_PWD) ='{getuser.Password}'";
 
-            var dtResult = mySqlHelper.ExecuteQuery(UserNameStatusInfo);
+        {
+            string UserNameStatusInfo = $"SELECT FIRST_NAME, LAST_NAME, CONTACT_NUMBER, LOGIN_ID, LOGIN_PWD, ADDR_LINE1, ADDR_LINE2, CITY, STATE, COUNTRY, ZIP_CODE   from USER_TBL U LEFT JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID LEFT JOIN CUST_PHONE cp ON cp.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID LEFT JOIN CUST_ADDRESS ca ON ca.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID  WHERE LOWER(LOGIN_ID) = '{getuser.LoginId.ToLowerInvariant()}' and LOWER(LOGIN_PWD) ='{getuser.Password}' and FK_USER_TYPE_ID=1";
+
+            var dtResult = mySqlHelper.ExecuteQuery(UserNameStatusInfo);            
             var result = FillGetUserModel(dtResult);
             return result;
         }
