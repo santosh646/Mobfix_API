@@ -14,12 +14,13 @@ namespace MobFix.Repositories
         MySqlMobileVersionHelper MySqlMobileVersionHelper = new MySqlMobileVersionHelper();
 
 
-        public MobileVersion GetMobileVersion(MobileVersion mobileversion)
+        public IList<MobileVersion> GetMobileVersion(MobileVersion mobileversion)
         {
-            string fetchMobileVersionType = $"SELECT * FROM Mobifix_DB.MOBILE_VER_TYPE WHERE LOWER (MOBILE_VER_TYPE_ID) = '{ mobileversion.MobileVersionTypeID.ToString() }'";
+            //string fetchMobileVersionType = $"SELECT * FROM Mobifix_DB.MOBILE_VER_TYPE WHERE LOWER (MOBILE_VER_TYPE_ID) = '{ mobileversion.MobileVersionTypeID.ToString() }'";
+            string fetchMobileVersionType = $"SELECT * FROM Mobifix_DB.MOBILE_VER_TYPE WHERE LOWER (FK_MOBILE_CMPNY_ID) =  '{mobileversion.MobileCompanyID}'";
             var dtResult = MySqlMobileVersionHelper.ExecuteQuery(fetchMobileVersionType);
             var mobileversiontype = FillMobileVersionTypesModel(dtResult);
-            return mobileversiontype.FirstOrDefault<MobileVersion>();
+            return mobileversiontype;
 
         }
 
