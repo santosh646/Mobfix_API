@@ -140,6 +140,7 @@
     <Compile Include="Controllers\CustomerAddressController.cs" />
     <Compile Include="Controllers\CustomerInfoController.cs" />
     <Compile Include="Controllers\CustomerPhoneController.cs" />
+    <Compile Include="Controllers\IssuePriceController.cs" />
     <Compile Include="Controllers\IssueTypeController.cs" />
     <Compile Include="Controllers\MobileOsController.cs" />
     <Compile Include="Controllers\MobileTypesController.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="Models\Cust_Demographics.cs" />
     <Compile Include="Models\Cust_Info.cs" />
     <Compile Include="Models\Cust_Phone.cs" />
+    <Compile Include="Models\IssuePrice.cs" />
     <Compile Include="Models\IssueType.cs" />
     <Compile Include="Models\MobileOs.cs" />
     <Compile Include="Models\MobileVersion.cs" />
@@ -197,6 +199,7 @@
     <Compile Include="Repositories\CustomerAddressRepository.cs" />
     <Compile Include="Repositories\CustomerInfoRepository.cs" />
     <Compile Include="Repositories\CustomerPhoneRepository.cs" />
+    <Compile Include="Repositories\IssuePriceRepository.cs" />
     <Compile Include="Repositories\IssueTypeRepository.cs" />
     <Compile Include="Repositories\MobileOsRepository.cs" />
     <Compile Include="Repositories\MobileTypesRepository.cs" />
