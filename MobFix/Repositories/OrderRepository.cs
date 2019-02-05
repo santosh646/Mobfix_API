@@ -21,20 +21,26 @@ namespace MobFix.Repositories
             var dtResult = MySqlOrderHelper.ExecuteQuery(fetchOrder);
             var getorders = FillgetorderModel(dtResult);
             return getorders.FirstOrDefault<getorder>();
-            
+
         }
-        public Order getemailOrder(Order order)
+        //public Order getemailOrder(Order order)
+        //{
+        //    string fetchOrder = $"SELECT * FROM ORDER_TABLE ot INNER JOIN USER_TBL ut ON ut.CUST_VEND_ADMIN_ID=ot.FK_CUST_VEND_ADMIN_ID WHERE LOWER(LOGIN_ID) = '{order.LoginId.ToLowerInvariant()}' ";
+
+        //    var dtResult = MySqlOrderHelper.ExecuteQuery(fetchOrder);
+        //    var orderemail = FillOrderModel(dtResult);
+        //    return orderemail.FirstOrDefault<Order>();
+
+        //}
+        public IList<Order> getemailOrder(Order order)
         {
-           // UPDATE Mobifix_DB.ORDER_TABLE SET FK_NOCONS_CUST_PHONE_ID = '{order.ContactPhoneID}' WHERE LOWER(ORDER_ID) = '{order.OrderID.ToString()}'
-            //string fetchOrder = $"SELECT * FROM Mobifix_DB.ORDER_TABLE WHERE LOWER ORDER_ID() = '{ OrderID.ToString() }'";
             string fetchOrder = $"SELECT * FROM ORDER_TABLE ot INNER JOIN USER_TBL ut ON ut.CUST_VEND_ADMIN_ID=ot.FK_CUST_VEND_ADMIN_ID WHERE LOWER(LOGIN_ID) = '{order.LoginId.ToLowerInvariant()}' ";
 
-            var dtResult = MySqlOrderHelper.ExecuteQuery(fetchOrder);
-            var orderemail = FillOrderModel(dtResult);
-            return orderemail.FirstOrDefault<Order>();
+        var dtResult = MySqlOrderHelper.ExecuteQuery(fetchOrder);
+        var orderemail = FillOrderModel(dtResult);
+            return orderemail;
 
         }
-
         public IList<getAllorders> GetAllOrders()
         {
             //string fetchOrder = $"SELECT * FROM Mobifix_DB.ORDER_TABLE";
