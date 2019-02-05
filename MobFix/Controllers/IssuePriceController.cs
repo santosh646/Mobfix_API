@@ -11,7 +11,7 @@ namespace MobFix.Controllers
 {
     public class IssuePriceController : ApiController
     {
-        [HttpPost]
+        [HttpPost] 
         public IHttpActionResult GetIssueprice([FromBody]IssuePrice issueprice)
         {
             var issuepriceRepo = new IssuePriceRepository();
