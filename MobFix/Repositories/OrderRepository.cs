@@ -32,12 +32,12 @@ namespace MobFix.Repositories
         //    return orderemail.FirstOrDefault<Order>();
 
         //}
-        public IList<Order> getemailOrder(Order order)
+        public IList<Order1> getemailOrder(Order1 order)
         {
-            string fetchOrder = $"SELECT * FROM ORDER_TABLE ot INNER JOIN USER_TBL ut ON ut.CUST_VEND_ADMIN_ID=ot.FK_CUST_VEND_ADMIN_ID WHERE LOWER(LOGIN_ID) = '{order.LoginId.ToLowerInvariant()}' ";
-
+            //string fetchOrder = $"SELECT * FROM ORDER_TABLE ot INNER JOIN USER_TBL ut ON ut.CUST_VEND_ADMIN_ID=ot.FK_CUST_VEND_ADMIN_ID WHERE LOWER(LOGIN_ID) = '{order.LoginId.ToLowerInvariant()}' ";
+            string fetchOrder = $"SELECT ORDER_ID, ORDER_PLACED_DATE,ORDER_STATUS_DESC, FINAL_COST FROM USER_TBL ut INNER JOIN ORDER_TABLE ot ON ut.CUST_VEND_ADMIN_ID=ot.FK_CUST_VEND_ADMIN_ID  INNER JOIN ORDER_STATUS os ON ut.CUST_VEND_ADMIN_ID=os.FK_CUST_VEND_ADMIN_ID  WHERE LOWER(LOGIN_ID) = '{order.LoginId.ToLowerInvariant()}'";
         var dtResult = MySqlOrderHelper.ExecuteQuery(fetchOrder);
-        var orderemail = FillOrderModel(dtResult);
+        var orderemail = FillOrder1Model(dtResult);
             return orderemail;
 
         }
@@ -71,9 +71,12 @@ namespace MobFix.Repositories
             {
                 foreach (DataRow row in dtOrders.Rows)
                 {
-                    
-                        var order = new Order();
+
+                    var order = new Order();
                     order.OrderID = Convert.ToInt32(row["ORDER_ID"]);
+                    order.OrderPlacedDate = Convert.ToDateTime(row["ORDER_PLACED_DATE"]);
+                    order.OrderstatusDesc = Convert.ToString(row["ORDER_STATUS_DESC"]);
+                    order.FinalCost = Convert.ToInt32(row["FINAL_COST"]);
                     order.CustVendorAdminID = Convert.ToInt32(row["FK_CUST_VEND_ADMIN_ID"]);
                     order.AssignedtoVendorID = Convert.ToInt32(row["ASSIGNED_TO_VENDOR_ID"]);
                     order.IssuesTypeID = Convert.ToInt32(row["FK_ISSUE_TYPE_ID"]);
@@ -83,13 +86,43 @@ namespace MobFix.Repositories
                     order.MobileVersionTypeID = Convert.ToInt32(row["FK_MOBILE_VER_TYPE_ID"]);
                     order.InitialQuote = Convert.ToInt32(row["INITIAL_QUOTE"]);
                     order.EstimatedQuote = Convert.ToInt32(row["ESTIMATED_QUOTE"]);
-                    order.FinalCost = Convert.ToInt32(row["FINAL_COST"]);
+
 
                     orderList.Add(order);
                 }
             }
             return orderList;
         }
+        private IList<Order1> FillOrder1Model(DataTable dtOrders)
+        {
+            var order1List = new List<Order1>();
+            if (null != dtOrders && dtOrders.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtOrders.Rows)
+                {
+
+                    var order1 = new Order1();
+                    order1.OrderID = Convert.ToInt32(row["ORDER_ID"]);
+                    order1.OrderPlacedDate = Convert.ToDateTime(row["ORDER_PLACED_DATE"]);
+                    order1.OrderstatusDesc = Convert.ToString(row["ORDER_STATUS_DESC"]);
+                    order1.FinalCost = Convert.ToInt32(row["FINAL_COST"]);
+                    // order.CustVendorAdminID = Convert.ToInt32(row["FK_CUST_VEND_ADMIN_ID"]);
+                    // order.AssignedtoVendorID = Convert.ToInt32(row["ASSIGNED_TO_VENDOR_ID"]);
+                    // order.IssuesTypeID = Convert.ToInt32(row["FK_ISSUE_TYPE_ID"]);
+                    //order.IssueDetails = Convert.ToString(row["ISSUE_DTLS"]);
+                    //order.IEMI = Convert.ToString(row["IEMI"]);
+                    //order.MobileCompID = Convert.ToInt32(row["FK_MOBILE_CMPNY_ID"]);
+                    //order.MobileVersionTypeID = Convert.ToInt32(row["FK_MOBILE_VER_TYPE_ID"]);
+                    //order.InitialQuote = Convert.ToInt32(row["INITIAL_QUOTE"]);
+                    //order.EstimatedQuote = Convert.ToInt32(row["ESTIMATED_QUOTE"]);
+
+
+                    order1List.Add(order1);
+                }
+            }
+            return order1List;
+        }
+
 
         private IList<getorder> FillgetorderModel(DataTable dtOrders)
         {

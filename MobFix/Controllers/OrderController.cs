@@ -40,7 +40,7 @@ namespace MobFix.Controllers
         }
         [HttpPost]
           
-        public IHttpActionResult getemailOrder([FromBody]Order order)
+        public IHttpActionResult getemailOrder([FromBody]Order1 order)
         {
             var orderRepo = new OrderRepository();
             var orderemail = orderRepo.getemailOrder(order);

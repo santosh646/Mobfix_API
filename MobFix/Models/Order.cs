@@ -7,6 +7,10 @@ namespace MobFix.Models
 {
     public class Order
     {
+        public int OrderID;
+        public DateTime OrderPlacedDate;
+        public string OrderstatusDesc;
+        public Decimal FinalCost;
         public string Id;
         public string UserType;
         public string LoginId;
@@ -18,7 +22,7 @@ namespace MobFix.Models
         public string CrearedBy;
         public DateTime LastUpdateDate;
         public string LastUpdateBy;
-        public int OrderID;
+
         public int CustVendorAdminID;
         public int AssignedtoVendorID;
         public int IssuesTypeID;
@@ -32,9 +36,10 @@ namespace MobFix.Models
         public int ContactPhoneID;
         public Decimal InitialQuote;
         public Decimal EstimatedQuote;
-        public Decimal FinalCost;
-        public DateTime OrderPlacedDate;
+
+
         public DateTime EstimatedTimetoDeliver;
+
 
     }
     public class getAllorders
@@ -66,5 +71,12 @@ namespace MobFix.Models
         public DateTime EstimatedTimetoDeliver;
 
     }
-
-}
+    public class Order1
+    {
+        public int OrderID;
+        public DateTime OrderPlacedDate;
+        public string OrderstatusDesc;
+        public Decimal FinalCost;
+        public string LoginId;
+    }
+    }
