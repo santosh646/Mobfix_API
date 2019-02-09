@@ -13,12 +13,23 @@ namespace MobFix.Repositories
         MySqlOrderStatusHelper MySqlOrderStatusHelper = new MySqlOrderStatusHelper();
 
 
-        public OrderStatus GetOrderStatus(OrderStatus orderstatus)
+        //public OrderStatus GetOrderStatus(OrderStatus orderstatus)
+        //{
+        //    string fetchOrderStatus = $"SELECT * FROM Mobifix_DB.ORDER_STATUS WHERE LOWER (ORDER_STATUS_ID) = '{ orderstatus.OrderStatusID.ToString() }'";
+            
+        //    var dtResult = MySqlOrderStatusHelper.ExecuteQuery(fetchOrderStatus);
+        //    var getorderstatus = FillOrderStatusModel(dtResult);
+        //    return getorderstatus.FirstOrDefault<OrderStatus>();
+
+        //}
+        public OrderStatus1 GetOrderStatus(OrderStatus1 orderstatus)
         {
-            string fetchOrderStatus = $"SELECT * FROM Mobifix_DB.ORDER_STATUS WHERE LOWER (ORDER_STATUS_ID) = '{ orderstatus.OrderStatusID.ToString() }'";
+            //string fetchOrderStatus = $"SELECT * FROM Mobifix_DB.ORDER_STATUS WHERE LOWER (ORDER_STATUS_ID) = '{ orderstatus.OrderStatusID.ToString() }'";
+            string fetchOrderStatus = $"SELECT ORDER_ID, ORDER_PLACED_DATE, ESTIMIATED_DATE_OF_DELIVER, ORDER_STATUS_DESC FROM Mobifix_DB.ORDER_TABLE ot INNER JOIN ORDER_STATUS os ON ot.ORDER_ID = os.FK_ORDER_ID WHERE LOWER (ORDER_ID) = '{ orderstatus.OrderID.ToString() }'";
+
             var dtResult = MySqlOrderStatusHelper.ExecuteQuery(fetchOrderStatus);
-            var getorderstatus = FillOrderStatusModel(dtResult);
-            return getorderstatus.FirstOrDefault<OrderStatus>();
+            var getorderstatus = FillOrderStatus1Model(dtResult);
+            return getorderstatus.FirstOrDefault<OrderStatus1>();
 
         }
 
@@ -58,6 +69,28 @@ namespace MobFix.Repositories
                 }
             }
             return orderstatusList;
+        }
+        private IList<OrderStatus1> FillOrderStatus1Model(DataTable dtOrderStatus1)
+        {
+            var orderstatus1List = new List<OrderStatus1>();
+            if (null != dtOrderStatus1 && dtOrderStatus1.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtOrderStatus1.Rows)
+                {
+                    var orderstatus1 = new OrderStatus1();
+                    orderstatus1.OrderID = Convert.ToInt32(row["ORDER_ID"]);
+                    OrderStatusDesc OrderStatus1;
+                    if (Enum.TryParse<OrderStatusDesc>(row["ORDER_STATUS_DESC"].ToString(), out OrderStatus1))
+                    {
+                        orderstatus1.OrderstatusDesc = OrderStatus1.ToString();
+                    }
+                    orderstatus1.OrderstatusDesc = Convert.ToString(row["ORDER_STATUS_DESC"]);
+                    orderstatus1.OrderDate = Convert.ToDateTime(row["ORDER_PLACED_DATE"]);
+                    orderstatus1.ExpectedDate = Convert.ToDateTime(row["ESTIMIATED_DATE_OF_DELIVER"]);
+                    orderstatus1List.Add(orderstatus1);
+                }
+            }
+            return orderstatus1List;
         }
     }
 }
