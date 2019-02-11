@@ -48,9 +48,12 @@ namespace MobFix.Models
         public int customeradminid;
         public int OrderID;
         public DateTime OrderPlacedDate;
-        public string fullname;
-        public string ContactNumber;
+        public string OrderstatusDesc;
         public string LoginId;
+        public string IssueDetails;
+        public string mobileCompany;
+        public string mobileversion;
+        public Decimal FinalCost;
     }
 
     public class getorder
@@ -76,6 +79,9 @@ namespace MobFix.Models
         public int OrderID;
         public DateTime OrderPlacedDate;
         public string OrderstatusDesc;
+        public string IssueDetails;
+        public string mobileCompany;
+        public string mobileversion;
         public Decimal FinalCost;
         public string LoginId;
     }

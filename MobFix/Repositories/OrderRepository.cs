@@ -35,16 +35,19 @@ namespace MobFix.Repositories
         public IList<Order1> getemailOrder(Order1 order)
         {
             //string fetchOrder = $"SELECT * FROM ORDER_TABLE ot INNER JOIN USER_TBL ut ON ut.CUST_VEND_ADMIN_ID=ot.FK_CUST_VEND_ADMIN_ID WHERE LOWER(LOGIN_ID) = '{order.LoginId.ToLowerInvariant()}' ";
-            string fetchOrder = $"SELECT ORDER_ID, ORDER_PLACED_DATE,ORDER_STATUS_DESC, FINAL_COST FROM USER_TBL ut INNER JOIN ORDER_TABLE ot ON ut.CUST_VEND_ADMIN_ID=ot.FK_CUST_VEND_ADMIN_ID  INNER JOIN ORDER_STATUS os ON ut.CUST_VEND_ADMIN_ID=os.FK_CUST_VEND_ADMIN_ID  WHERE LOWER(LOGIN_ID) = '{order.LoginId.ToLowerInvariant()}'";
-        var dtResult = MySqlOrderHelper.ExecuteQuery(fetchOrder);
+            //string fetchOrder = $"SELECT ORDER_ID, ORDER_PLACED_DATE,ORDER_STATUS_DESC, FINAL_COST FROM USER_TBL ut INNER JOIN ORDER_TABLE ot ON ut.CUST_VEND_ADMIN_ID=ot.FK_CUST_VEND_ADMIN_ID  INNER JOIN ORDER_STATUS os ON ut.CUST_VEND_ADMIN_ID=os.FK_CUST_VEND_ADMIN_ID  WHERE LOWER(LOGIN_ID) = '{order.LoginId.ToLowerInvariant()}'";
+            string fetchOrder = $"SELECT ORDER_ID, ORDER_PLACED_DATE,ORDER_STATUS_DESC,ISSUE_DTLS,MOBILE_CMPNY_DESC,MOBILE_VER_DESC, FINAL_COST FROM USER_TBL ut INNER JOIN ORDER_TABLE ot ON ut.CUST_VEND_ADMIN_ID=ot.FK_CUST_VEND_ADMIN_ID  INNER JOIN ORDER_STATUS os ON ut.CUST_VEND_ADMIN_ID=os.FK_CUST_VEND_ADMIN_ID INNER JOIN MOBILE_TYPE mt ON mt.FK_CUST_VEND_ADMIN_ID=ut.CUST_VEND_ADMIN_ID INNER JOIN MOBILE_VER_TYPE mv ON mv.FK_CUST_VEND_ADMIN_ID=ut.CUST_VEND_ADMIN_ID WHERE LOWER(LOGIN_ID) = '{order.LoginId.ToLowerInvariant()}'";
+            var dtResult = MySqlOrderHelper.ExecuteQuery(fetchOrder);
         var orderemail = FillOrder1Model(dtResult);
             return orderemail;
 
         }
         public IList<getAllorders> GetAllOrders()
+
         {
             //string fetchOrder = $"SELECT * FROM Mobifix_DB.ORDER_TABLE";
-            string fetchOrder = $"SELECT CUST_VEND_ADMIN_ID, ORDER_ID, ORDER_PLACED_DATE, FULL_NAME, CONTACT_NUMBER, LOGIN_ID FROM USER_TBL u INNER JOIN ORDER_TABLE ot ON ot.FK_CUST_VEND_ADMIN_ID = u.CUST_VEND_ADMIN_ID INNER JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID = u.CUST_VEND_ADMIN_ID INNER JOIN CUST_PHONE cp ON cp.FK_CUST_VEND_ADMIN_ID = u.CUST_VEND_ADMIN_ID";
+            // string fetchOrder = $"SELECT CUST_VEND_ADMIN_ID, ORDER_ID, ORDER_PLACED_DATE, FULL_NAME, CONTACT_NUMBER, LOGIN_ID FROM USER_TBL u INNER JOIN ORDER_TABLE ot ON ot.FK_CUST_VEND_ADMIN_ID = u.CUST_VEND_ADMIN_ID INNER JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID = u.CUST_VEND_ADMIN_ID INNER JOIN CUST_PHONE cp ON cp.FK_CUST_VEND_ADMIN_ID = u.CUST_VEND_ADMIN_ID";
+            string fetchOrder = $"SELECT CUST_VEND_ADMIN_ID, ORDER_ID, ORDER_PLACED_DATE,ORDER_STATUS_DESC,ISSUE_DTLS,MOBILE_CMPNY_DESC,MOBILE_VER_DESC, FINAL_COST FROM USER_TBL ut INNER JOIN ORDER_TABLE ot ON ut.CUST_VEND_ADMIN_ID=ot.FK_CUST_VEND_ADMIN_ID  INNER JOIN ORDER_STATUS os ON ut.CUST_VEND_ADMIN_ID=os.FK_CUST_VEND_ADMIN_ID INNER JOIN MOBILE_TYPE mt ON mt.FK_CUST_VEND_ADMIN_ID=ut.CUST_VEND_ADMIN_ID INNER JOIN MOBILE_VER_TYPE mv ON mv.FK_CUST_VEND_ADMIN_ID=ut.CUST_VEND_ADMIN_ID";
             var dtResult = MySqlOrderHelper.ExecuteQuery(fetchOrder);
             var order = FillgetAllordersModel(dtResult);
             return order;
@@ -105,16 +108,11 @@ namespace MobFix.Repositories
                     order1.OrderID = Convert.ToInt32(row["ORDER_ID"]);
                     order1.OrderPlacedDate = Convert.ToDateTime(row["ORDER_PLACED_DATE"]);
                     order1.OrderstatusDesc = Convert.ToString(row["ORDER_STATUS_DESC"]);
+                    order1.IssueDetails = Convert.ToString(row["ISSUE_DTLS"]);
+                    order1.mobileCompany = Convert.ToString(row["MOBILE_CMPNY_DESC"]);
+                    order1.mobileversion = Convert.ToString(row["MOBILE_VER_DESC"]);
                     order1.FinalCost = Convert.ToInt32(row["FINAL_COST"]);
-                    // order.CustVendorAdminID = Convert.ToInt32(row["FK_CUST_VEND_ADMIN_ID"]);
-                    // order.AssignedtoVendorID = Convert.ToInt32(row["ASSIGNED_TO_VENDOR_ID"]);
-                    // order.IssuesTypeID = Convert.ToInt32(row["FK_ISSUE_TYPE_ID"]);
-                    //order.IssueDetails = Convert.ToString(row["ISSUE_DTLS"]);
-                    //order.IEMI = Convert.ToString(row["IEMI"]);
-                    //order.MobileCompID = Convert.ToInt32(row["FK_MOBILE_CMPNY_ID"]);
-                    //order.MobileVersionTypeID = Convert.ToInt32(row["FK_MOBILE_VER_TYPE_ID"]);
-                    //order.InitialQuote = Convert.ToInt32(row["INITIAL_QUOTE"]);
-                    //order.EstimatedQuote = Convert.ToInt32(row["ESTIMATED_QUOTE"]);
+                    
 
 
                     order1List.Add(order1);
@@ -175,9 +173,12 @@ namespace MobFix.Repositories
                     user.customeradminid = Convert.ToInt32(row["CUST_VEND_ADMIN_ID"]);
                     user.OrderID = Convert.ToInt32(row["ORDER_ID"]);
                     user.OrderPlacedDate = Convert.ToDateTime(row["ORDER_PLACED_DATE"]);
-                    user.fullname = Convert.ToString(row["FULL_NAME"]);
-                    user.ContactNumber = Convert.ToString(row["CONTACT_NUMBER"]);
-                    user.LoginId = row["LOGIN_ID"].ToString();
+                    user.OrderstatusDesc = Convert.ToString(row["ORDER_STATUS_DESC"]);
+                    user.IssueDetails = Convert.ToString(row["ISSUE_DTLS"]);
+                    user.mobileCompany = Convert.ToString(row["MOBILE_CMPNY_DESC"]);
+                    user.mobileversion = Convert.ToString(row["MOBILE_VER_DESC"]);
+                    user.FinalCost = Convert.ToInt32(row["FINAL_COST"]);
+                    //user.LoginId = Convert.ToString(row["LOGIN_ID"]);
 
 
                     //user.Add(user);
