@@ -42,6 +42,14 @@ namespace MobFix.Repositories
             return orderemail;
 
         }
+        public IList<userOrder> getuserOrder(userOrder order)
+        {
+            string fetchOrder = $"SELECT CUST_VEND_ADMIN_ID,ORDER_ID,ISSUE_DTLS,MOBILE_CMPNY_DESC,MOBILE_VER_DESC, FINAL_COST FROM USER_TBL ut INNER JOIN ORDER_TABLE ot ON ut.CUST_VEND_ADMIN_ID=ot.FK_CUST_VEND_ADMIN_ID INNER JOIN ORDER_STATUS os ON ut.CUST_VEND_ADMIN_ID=os.FK_CUST_VEND_ADMIN_ID INNER JOIN MOBILE_TYPE mt ON mt.FK_CUST_VEND_ADMIN_ID=ut.CUST_VEND_ADMIN_ID INNER JOIN MOBILE_VER_TYPE mv ON mv.FK_CUST_VEND_ADMIN_ID=ut.CUST_VEND_ADMIN_ID WHERE LOWER(LOGIN_ID) = '{order.LoginId.ToLowerInvariant()}' && LOWER (ORDER_ID) = '{ order.OrderID.ToString()} '";
+            var dtResult = MySqlOrderHelper.ExecuteQuery(fetchOrder);
+            var userorder = FilluserOrderModel(dtResult);
+            return userorder;
+
+        }
         public IList<getAllorders> GetAllOrders()
 
         {
@@ -119,6 +127,28 @@ namespace MobFix.Repositories
                 }
             }
             return order1List;
+        }
+        private IList<userOrder> FilluserOrderModel(DataTable dtOrders)
+        {
+            var userorderList = new List<userOrder>();
+            if (null != dtOrders && dtOrders.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtOrders.Rows)
+                {
+
+                    var userorder = new userOrder();
+                    userorder.OrderID = Convert.ToInt32(row["ORDER_ID"]);
+                    userorder.IssueDetails = Convert.ToString(row["ISSUE_DTLS"]);
+                    userorder.mobileCompany = Convert.ToString(row["MOBILE_CMPNY_DESC"]);
+                    userorder.mobileversion = Convert.ToString(row["MOBILE_VER_DESC"]);
+                    userorder.FinalCost = Convert.ToInt32(row["FINAL_COST"]);
+
+
+
+                    userorderList.Add(userorder);
+                }
+            }
+            return userorderList;
         }
 
 

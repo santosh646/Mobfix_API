@@ -50,6 +50,18 @@ namespace MobFix.Controllers
             }
             return Ok(orderemail);
         }
+        [HttpPost]
+
+        public IHttpActionResult getuserOrder([FromBody]userOrder order)
+        {
+            var orderRepo = new OrderRepository();
+            var userOrder = orderRepo.getuserOrder(order);
+            if (userOrder == null)
+            {
+                return NotFound();
+            }
+            return Ok(userOrder);
+        }
 
         [HttpPost]
         public IHttpActionResult InsertOrderDetails([FromBody]Order order)

@@ -85,4 +85,14 @@ namespace MobFix.Models
         public Decimal FinalCost;
         public string LoginId;
     }
+    public class userOrder
+    {
+        public int OrderID;
+        
+        public string IssueDetails;
+        public string mobileCompany;
+        public string mobileversion;
+        public Decimal FinalCost;
+        public string LoginId;
     }
+}
