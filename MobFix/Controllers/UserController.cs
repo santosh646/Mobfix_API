@@ -92,7 +92,7 @@ namespace MobFix.Controllers
             return Ok(result);
         }
 
-        [HttpPut]
+        [HttpPost]
         public IHttpActionResult UpdateUserStatus([FromBody]User user)
         {
             var userRepo = new UserRepository();
