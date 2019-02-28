@@ -54,9 +54,20 @@ namespace MobFix.Repositories
         public int UpdateUserStatus(User user)
         {
 
-            string updateUserInfo = $"UPDATE Mobifix_DB.USER_TBL ut INNER JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID=ut.CUST_VEND_ADMIN_ID INNER JOIN CUST_ADDRESS ca ON ut.CUST_VEND_ADMIN_ID=ca.FK_CUST_VEND_ADMIN_ID SET ci.FIRST_NAME='{user.FirstName}',ci.LAST_NAME='{user.LastName}',ci.FULL_NAME='{user.FullName}',ca.ADDR_LINE1='{user.AddressLine1}',ca.ADDR_LINE2='{user.AddressLine2}',ca.CITY='{user.City}',ca.STATE='{user.State}',ca.COUNTRY='{user.Country}',ca.ZIP_CODE='{user.ZIPCode}' WHERE LOWER(LOGIN_ID) = '{user.LoginId.ToLowerInvariant()}' ";
-            // string updateUserInfo = $"UPDATE Mobifix_DB.USER_TBL SET FK_USER_STATUS_CD = '{user.UserStatus}' WHERE LOWER(LOGIN_ID) = '{user.LoginId.ToLowerInvariant()}' ";
+            string updateUserInfo = $"UPDATE Mobifix_DB.USER_TBL ut INNER JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID=ut.CUST_VEND_ADMIN_ID INNER JOIN CUST_ADDRESS ca ON ci.CUST_INFO_ID=ca.FK_CUST_INFO_ID set ci.FIRST_NAME='{user.FirstName}',ci.LAST_NAME='{user.LastName}',ci.FULL_NAME='{user.FullName}',ca.ADDR_LINE1='{user.AddressLine1}',ca.ADDR_LINE2='{user.AddressLine2}',ca.CITY='{user.City}',ca.STATE='{user.State}',ca.COUNTRY='{user.Country}',ca.ZIP_CODE='{user.ZIPCode}' WHERE CUST_VEND_ADMIN_ID = '{user.CustAdminid}' ";
             return mySqlHelper.ExecuteNonQuery(updateUserInfo);
+           // string updateUserInfo = $"UPDATE Mobifix_DB.USER_TBL(FK_USER_TYPE_ID, LOGIN_ID, NUM_OF_FAILED_ATTEMPTS, LAST_LOGIN_DT, FK_USER_STATUS_CD, CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY)" +
+            //    $" VALUES('{user.UserType}', '{user.LoginId}', {user.NoOfAttempts},  NOW(), '{user.UserStatus}', NOW(), {user.CrearedBy},NOW(), {user.LastUpdateBy} WHERE CUST_VEND_ADMIN_ID = '{user.CustAdminid}');";
+
+            //updateUserInfo += $"UPDATE Mobifix_DB.CUST_INFO(FK_CUST_VEND_ADMIN_ID, FIRST_NAME, LAST_NAME, FULL_NAME, NAMEPREFIX,GENDER,CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY) " +
+            //     $"VALUES(' {user.CustAdminid},'{user.FirstName}', '{user.LastName}' ,'{user.FullName}','{user.NamePrefix}','{user.Gender}', NOW(), {user.AddByUserID}, NOW(), {user.ChangedByID}); ";
+
+            //updateUserInfo += $"UPDATE Mobifix_DB.CUST_INFO(FK_CUST_INFO_ID, FK_CONTACT_TYPE_ID, ADDR_LINE1,ADDR_LINE2, CITY,STATE,COUNTRY,ZIP_CODE,FK_CONTACT_STATUS_CD,CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY) " +
+            //     $"Select LAST_INSERT_ID(),{user.ContactPhoneID}, '{user.AddressLine1}' ,'{user.AddressLine2}','{user.City}','{user.State}',{user.ZIPCode},'{user.ContactStatus}', NOW(), {user.AddedByUserID}, NOW(), {user.ChangeByID}";
+
+
+            //return mySqlHelper.ExecuteNonQuery(updateUserInfo);
+
         }
 
         public int InsertUserDetails(User user)
@@ -65,7 +76,7 @@ namespace MobFix.Repositories
                 $" VALUES({user.UserType}, '{user.LoginId}', '{user.Password}', {user.NoOfAttempts},  NOW(), '{user.UserStatus}', NOW(), {user.CrearedBy},NOW(), {user.LastUpdateBy});";
 
             InsertUserInfo += $"INSERT INTO Mobifix_DB.CUST_PHONE(FK_CUST_VEND_ADMIN_ID, FK_CONTACT_TYPE_ID, CONTACT_NUMBER, FK_CONTACT_STATUS_CD, CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY) " +
-                 $"Select LAST_INSERT_ID(),{user.ContactPhoneID}, {user.ContactNumber} ,'{user.ContactStatus}', NOW(), {user.AddByUserID}, NOW(), {user.ChangedByID};";
+                 $"Select LAST_INSERT_ID(),{user.ContactPhoneID}, {user.ContactNumber} ,'{user.ContactStatus}', NOW(), {user.AddedByUserID}, NOW(), {user.ChangedByID};";
 
             InsertUserInfo += $"INSERT INTO Mobifix_DB.CUST_ADDRESS (FK_CUST_VEND_ADMIN_ID, FK_CONTACT_TYPE_ID, ADDR_LINE1, ADDR_LINE2, CITY, STATE, COUNTRY, ZIP_CODE, FK_CONTACT_STATUS_CD, CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY) " +
                  $"Select LAST_INSERT_ID(), {user.ContactAddrID}, '{user.AddressLine1}','{user.AddressLine2}', '{user.City}','{user.State}','{user.Country}', {user.ZIPCode}, '{user.ContactStatusCD}', NOW(), {user.ChangeByID}, NOW(), {user.AddByUserID}";
@@ -77,8 +88,14 @@ namespace MobFix.Repositories
             string InsertUserregistrationInfo = $"INSERT INTO Mobifix_DB.USER_TBL(FK_USER_TYPE_ID, LOGIN_ID, LOGIN_PWD, NUM_OF_FAILED_ATTEMPTS, LAST_LOGIN_DT, FK_USER_STATUS_CD, CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY)" +
                 $" VALUES({user.UserType}, '{user.LoginId}', '{user.Password}', {user.NoOfAttempts},  NOW(), '{user.UserStatus}', NOW(), {user.CrearedBy},NOW(), {user.LastUpdateBy});";
 
-            InsertUserregistrationInfo += $"INSERT INTO Mobifix_DB.CUST_PHONE(FK_CUST_VEND_ADMIN_ID, FK_CONTACT_TYPE_ID, CONTACT_NUMBER, FK_CONTACT_STATUS_CD, CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY) " +
-                 $"Select LAST_INSERT_ID(),{user.ContactPhoneID}, {user.ContactNumber} ,'{user.ContactStatus}', NOW(), {user.AddByUserID}, NOW(), {user.ChangedByID}";
+            InsertUserregistrationInfo += $"INSERT INTO Mobifix_DB.CUST_INFO(FK_CUST_VEND_ADMIN_ID, FIRST_NAME, LAST_NAME, FULL_NAME, NAMEPREFIX,GENDER,CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY) " +
+                 $"Select LAST_INSERT_ID(),'{user.FirstName}', '{user.LastName}' ,'{user.FullName}','{user.NamePrefix}','{user.Gender}', NOW(), {user.AddByUserID}, NOW(), {user.ChangedByID};";
+
+            InsertUserregistrationInfo += $"INSERT INTO Mobifix_DB.CUST_ADDRESS (FK_CUST_INFO_ID, FK_CONTACT_TYPE_ID, ADDR_LINE1, ADDR_LINE2, CITY, STATE, COUNTRY, ZIP_CODE, FK_CONTACT_STATUS_CD, CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY) " +
+                 $"Select LAST_INSERT_ID(), {user.ContactAddrID}, '{user.AddressLine1}','{user.AddressLine2}', '{user.City}','{user.State}','{user.Country}', {user.ZIPCode}, '{user.ContactStatusCD}', NOW(), {user.ChangeByID}, NOW(), {user.AddByUserID};";
+
+            InsertUserregistrationInfo += $"INSERT INTO Mobifix_DB.CUST_PHONE(FK_CUST_ADDRESS_ID, FK_CONTACT_TYPE_ID, CONTACT_NUMBER, FK_CONTACT_STATUS_CD, CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY) " +
+                 $"Select LAST_INSERT_ID(),{user.CustID}, {user.ContactNumber} ,'{user.ContactStatus}', NOW(), {user.AddByUserID}, NOW(), {user.ChangedByID}";
             return mySqlHelper.ExecuteNonQuery(InsertUserregistrationInfo);
         }
 
@@ -91,8 +108,8 @@ namespace MobFix.Repositories
 
         public IList<GetUser> UserNameStatus(GetUser getuser)
 
-        {
-            string UserNameStatusInfo = $"SELECT FIRST_NAME, LAST_NAME, CONTACT_NUMBER, LOGIN_ID, LOGIN_PWD, ADDR_LINE1, ADDR_LINE2, CITY, STATE, COUNTRY, ZIP_CODE   from USER_TBL U LEFT JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID LEFT JOIN CUST_PHONE cp ON cp.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID LEFT JOIN CUST_ADDRESS ca ON ca.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID  WHERE LOWER(LOGIN_ID) = '{getuser.LoginId.ToLowerInvariant()}' and LOWER(LOGIN_PWD) ='{getuser.Password}' and FK_USER_TYPE_ID=1";
+            {
+            string UserNameStatusInfo = $"SELECT CUST_VEND_ADMIN_ID,FIRST_NAME, LAST_NAME, CONTACT_NUMBER, LOGIN_ID, LOGIN_PWD, ADDR_LINE1, ADDR_LINE2, CITY, STATE, COUNTRY, ZIP_CODE   from USER_TBL U LEFT JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID LEFT JOIN CUST_PHONE cp ON cp.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID LEFT JOIN CUST_ADDRESS ca ON ca.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID  WHERE LOWER(LOGIN_ID) = '{getuser.LoginId.ToLowerInvariant()}' and LOWER(LOGIN_PWD) ='{getuser.Password}' and FK_USER_TYPE_ID=1";
 
             var dtResult = mySqlHelper.ExecuteQuery(UserNameStatusInfo);            
             var result = FillGetUserModel(dtResult);
@@ -106,11 +123,13 @@ namespace MobFix.Repositories
                 foreach (DataRow row in dtUsers.Rows)
                 {
                     var user = new GetUser();
-
+                    user.custvendAdminID = Convert.ToInt32(row["CUST_VEND_ADMIN_ID"]);
                     user.FirstName = Convert.ToString(row["FIRST_NAME"]);
                     user.LastName = Convert.ToString(row["LAST_NAME"]);
                     user.ContactNumber = Convert.ToString(row["CONTACT_NUMBER"]);
                     user.LoginId = Convert.ToString(row["LOGIN_ID"]);
+                    
+                    
                     user.Password = Convert.ToString(row["LOGIN_PWD"]);
                     user.AddressLine1 = Convert.ToString(row["ADDR_LINE1"]);
                     user.AddressLine2 = Convert.ToString(row["ADDR_LINE2"]);

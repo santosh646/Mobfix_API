@@ -41,6 +41,12 @@ namespace MobFix.Models
         public int ChangeByID;
         public DateTime AddDate;
         public int AddedByUserID;
+        public string FirstName;
+        public DateTime Dob;
+        public string LastName;
+        public string FullName;
+        public string NamePrefix;
+        public string Gender;
 
     }
     public class GetVendor

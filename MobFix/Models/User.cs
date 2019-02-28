@@ -9,6 +9,7 @@ namespace MobFix.Models
     {
 
         public string Id;
+        public int CustAdminid;
         public string UserType;
         public string LoginId;
         public string Password;
@@ -43,13 +44,18 @@ namespace MobFix.Models
         public DateTime AddDate;
         public int AddedByUserID;
         public string FirstName;
+        public DateTime Dob;
         public string LastName;
         public string FullName;
+        public string NamePrefix;
+        public string Gender;
+        
     }
 
     public class GetUser
     {
-       // public string Id;
+        // public string Id;
+        public int custvendAdminID;
         public string FirstName;
         public string LastName;
         public string LoginId;

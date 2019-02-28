@@ -36,9 +36,34 @@ namespace MobFix.Models
         public int ContactPhoneID;
         public Decimal InitialQuote;
         public Decimal EstimatedQuote;
-
-
         public DateTime EstimatedTimetoDeliver;
+
+        public int orderstatusID;
+        public string orderstatusdescription;
+        public string orderstatusIND;
+        public DateTime createdDate;
+        public int createdBy;
+       public DateTime lastmodifiedDate;
+        public int lastmodifiedBy;
+        public string orderID;
+        public int custvendadminID;
+
+        public int mobileCompanyID;
+        public string mobileCompanyDesc;
+        public string mobileTypeIND;
+        public DateTime Date;
+        public int By;
+        public DateTime dDate;
+        public int dBy;
+
+         public int mobileversionTypeID;
+        public string mobileversionDesc;
+        public string mobileversionTypeIND;
+        public DateTime mobDate;
+        public int mobBy;
+        public DateTime mobbDate;
+        public int mobbBy;
+        public int MobileCompanyID;
 
 
     }
@@ -76,6 +101,7 @@ namespace MobFix.Models
     }
     public class Order1
     {
+        public int CustVendorAdminID;
         public int OrderID;
         public DateTime OrderPlacedDate;
         public string OrderstatusDesc;
