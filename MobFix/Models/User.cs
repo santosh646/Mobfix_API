@@ -9,7 +9,7 @@ namespace MobFix.Models
     {
 
         public string Id;
-        public int CustAdminid;
+        public int custvendAdminID;
         public string UserType;
         public string LoginId;
         public string Password;
@@ -77,6 +77,34 @@ namespace MobFix.Models
         //public string LastUpdateBy;
 
     }
+
+    public class GetUserDetails
+    {
+        // public string Id;
+        public int custvendAdminID;
+        public string FirstName;
+        public string LastName;
+        public string LoginId;
+        public string Password;
+        public string ContactNumber;
+        //public string UserType;
+        public string AddressLine1;
+        public string AddressLine2;
+        public string City;
+        public string State;
+        public string Country;
+        public string ZIPCode;
+        //public int NoOfAttempts;
+        //public DateTime LastLoginDate;
+        //public string UserStatus;
+        //public DateTime CreatedDate;
+        //public string CrearedBy;
+        //public DateTime LastUpdateDate;
+        //public string LastUpdateBy;
+
+    }
+
+
     public class getAllUsers
     {
 
