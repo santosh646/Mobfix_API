@@ -79,6 +79,18 @@ namespace MobFix.Controllers
             return Ok("New User Registration Details Inserted");
         }
 
+        [HttpPost]
+        public IHttpActionResult getuserDetails([FromBody]GetUserDetails UserDetails)
+        {
+            var userRepo = new UserRepository();
+            var result = userRepo.getuserDetails(UserDetails);
+            if (result == null || result.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
 
         [HttpPost]
         public IHttpActionResult UserNameStatus([FromBody]GetUser getuser)
@@ -98,10 +110,11 @@ namespace MobFix.Controllers
             var userRepo = new UserRepository();
             var result = userRepo.UpdateUserStatus(user);
             if (result <= 0)
-            {
-                return Ok("Error occurred while updating the user status");
+          //      if (result == null || result.Count == 0)
+                {
+                return NotFound();
             }
-            return Ok("User Status updated");
+            return Ok(result);
         }
 
         // DELETE: api/User/Delete

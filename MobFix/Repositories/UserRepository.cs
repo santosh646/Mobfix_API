@@ -51,12 +51,26 @@ namespace MobFix.Repositories
             return user;
         }
 
+        public IList<GetUserDetails> getuserDetails(GetUserDetails userdetail)
+        {
+            string GetUserDetailsInfo = $"SELECT CUST_VEND_ADMIN_ID, FIRST_NAME, LAST_NAME, CONTACT_NUMBER, LOGIN_ID, LOGIN_PWD, ADDR_LINE1, ADDR_LINE2, CITY, STATE, COUNTRY, ZIP_CODE   from USER_TBL U LEFT JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID LEFT JOIN CUST_ADDRESS ca ON ca.FK_CUST_INFO_ID = ci.CUST_INFO_ID LEFT JOIN CUST_PHONE cp ON cp.FK_CUST_ADDRESS_ID = ca.CUST_ADDR_ID  WHERE CUST_VEND_ADMIN_ID = '{userdetail.custvendAdminID}'  and FK_USER_TYPE_ID=1";
+            var dtResult = mySqlHelper.ExecuteQuery(GetUserDetailsInfo);
+            var result = FillGetUserDetailsModel(dtResult);
+            return result;
+        }
+
         public int UpdateUserStatus(User user)
+       
         {
 
-            string updateUserInfo = $"UPDATE Mobifix_DB.USER_TBL ut INNER JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID=ut.CUST_VEND_ADMIN_ID INNER JOIN CUST_ADDRESS ca ON ci.CUST_INFO_ID=ca.FK_CUST_INFO_ID set ci.FIRST_NAME='{user.FirstName}',ci.LAST_NAME='{user.LastName}',ci.FULL_NAME='{user.FullName}',ca.ADDR_LINE1='{user.AddressLine1}',ca.ADDR_LINE2='{user.AddressLine2}',ca.CITY='{user.City}',ca.STATE='{user.State}',ca.COUNTRY='{user.Country}',ca.ZIP_CODE='{user.ZIPCode}' WHERE CUST_VEND_ADMIN_ID = '{user.CustAdminid}' ";
+            string updateUserInfo = $"UPDATE Mobifix_DB.USER_TBL ut INNER JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID=ut.CUST_VEND_ADMIN_ID INNER JOIN CUST_ADDRESS ca ON ci.CUST_INFO_ID=ca.FK_CUST_INFO_ID set ci.FIRST_NAME='{user.FirstName}',ci.LAST_NAME='{user.LastName}',ci.FULL_NAME='{user.FullName}',ca.ADDR_LINE1='{user.AddressLine1}',ca.ADDR_LINE2='{user.AddressLine2}',ca.CITY='{user.City}',ca.STATE='{user.State}',ca.COUNTRY='{user.Country}',ca.ZIP_CODE='{user.ZIPCode}' WHERE CUST_VEND_ADMIN_ID = '{user.custvendAdminID}' ";
+
+
             return mySqlHelper.ExecuteNonQuery(updateUserInfo);
-           // string updateUserInfo = $"UPDATE Mobifix_DB.USER_TBL(FK_USER_TYPE_ID, LOGIN_ID, NUM_OF_FAILED_ATTEMPTS, LAST_LOGIN_DT, FK_USER_STATUS_CD, CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY)" +
+
+            
+
+            // string updateUserInfo = $"UPDATE Mobifix_DB.USER_TBL(FK_USER_TYPE_ID, LOGIN_ID, NUM_OF_FAILED_ATTEMPTS, LAST_LOGIN_DT, FK_USER_STATUS_CD, CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY)" +
             //    $" VALUES('{user.UserType}', '{user.LoginId}', {user.NoOfAttempts},  NOW(), '{user.UserStatus}', NOW(), {user.CrearedBy},NOW(), {user.LastUpdateBy} WHERE CUST_VEND_ADMIN_ID = '{user.CustAdminid}');";
 
             //updateUserInfo += $"UPDATE Mobifix_DB.CUST_INFO(FK_CUST_VEND_ADMIN_ID, FIRST_NAME, LAST_NAME, FULL_NAME, NAMEPREFIX,GENDER,CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY) " +
@@ -70,6 +84,7 @@ namespace MobFix.Repositories
 
         }
 
+       
         public int InsertUserDetails(User user)
         {
            string InsertUserInfo = $"INSERT INTO Mobifix_DB.USER_TBL(FK_USER_TYPE_ID, LOGIN_ID, LOGIN_PWD, NUM_OF_FAILED_ATTEMPTS, LAST_LOGIN_DT, FK_USER_STATUS_CD, CREATED_DATE, CREATED_BY, LASTMODIFIED_DATE, LASTMODIFIED_BY)" +
@@ -109,8 +124,8 @@ namespace MobFix.Repositories
         public IList<GetUser> UserNameStatus(GetUser getuser)
 
             {
-            string UserNameStatusInfo = $"SELECT CUST_VEND_ADMIN_ID,FIRST_NAME, LAST_NAME, CONTACT_NUMBER, LOGIN_ID, LOGIN_PWD, ADDR_LINE1, ADDR_LINE2, CITY, STATE, COUNTRY, ZIP_CODE   from USER_TBL U LEFT JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID LEFT JOIN CUST_PHONE cp ON cp.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID LEFT JOIN CUST_ADDRESS ca ON ca.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID  WHERE LOWER(LOGIN_ID) = '{getuser.LoginId.ToLowerInvariant()}' and LOWER(LOGIN_PWD) ='{getuser.Password}' and FK_USER_TYPE_ID=1";
-
+            //string UserNameStatusInfo = $"SELECT CUST_VEND_ADMIN_ID,FIRST_NAME, LAST_NAME, CONTACT_NUMBER, LOGIN_ID, LOGIN_PWD, ADDR_LINE1, ADDR_LINE2, CITY, STATE, COUNTRY, ZIP_CODE   from USER_TBL U LEFT JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID LEFT JOIN CUST_PHONE cp ON cp.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID LEFT JOIN CUST_ADDRESS ca ON ca.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID  WHERE LOWER(LOGIN_ID) = '{getuser.LoginId.ToLowerInvariant()}' and LOWER(LOGIN_PWD) ='{getuser.Password}' and FK_USER_TYPE_ID=1";
+            string UserNameStatusInfo = $"SELECT CUST_VEND_ADMIN_ID, FIRST_NAME, LAST_NAME, CONTACT_NUMBER, LOGIN_ID, LOGIN_PWD, ADDR_LINE1, ADDR_LINE2, CITY, STATE, COUNTRY, ZIP_CODE   from USER_TBL U LEFT JOIN CUST_INFO ci ON ci.FK_CUST_VEND_ADMIN_ID = U.CUST_VEND_ADMIN_ID LEFT JOIN CUST_ADDRESS ca ON ca.FK_CUST_INFO_ID = ci.CUST_INFO_ID LEFT JOIN CUST_PHONE cp ON cp.FK_CUST_ADDRESS_ID = ca.CUST_ADDR_ID WHERE LOWER(LOGIN_ID) = '{getuser.LoginId.ToLowerInvariant()}' and LOWER(LOGIN_PWD) ='{getuser.Password}' and FK_USER_TYPE_ID=1";
             var dtResult = mySqlHelper.ExecuteQuery(UserNameStatusInfo);            
             var result = FillGetUserModel(dtResult);
             return result;
@@ -144,6 +159,37 @@ namespace MobFix.Repositories
                 }
             }
             return userList;
+        }
+
+        private IList<GetUserDetails> FillGetUserDetailsModel(DataTable dtUsers)
+        {
+            var GetUserDetailsList = new List<GetUserDetails>();
+            if (null != dtUsers && dtUsers.Rows.Count > 0)
+            {
+                foreach (DataRow row in dtUsers.Rows)
+                {
+                    var UserDetails = new GetUserDetails();
+                    UserDetails.custvendAdminID = Convert.ToInt32(row["CUST_VEND_ADMIN_ID"]);
+                    UserDetails.FirstName = Convert.ToString(row["FIRST_NAME"]);
+                    UserDetails.LastName = Convert.ToString(row["LAST_NAME"]);
+                    UserDetails.ContactNumber = Convert.ToString(row["CONTACT_NUMBER"]);
+                    UserDetails.LoginId = Convert.ToString(row["LOGIN_ID"]);
+
+
+                    UserDetails.Password = Convert.ToString(row["LOGIN_PWD"]);
+                    UserDetails.AddressLine1 = Convert.ToString(row["ADDR_LINE1"]);
+                    UserDetails.AddressLine2 = Convert.ToString(row["ADDR_LINE2"]);
+                    UserDetails.City = Convert.ToString(row["CITY"]);
+                    UserDetails.State = Convert.ToString(row["STATE"]);
+                    UserDetails.Country = Convert.ToString(row["COUNTRY"]);
+                    UserDetails.ZIPCode = Convert.ToString(row["ZIP_CODE"]);
+
+
+
+                    GetUserDetailsList.Add(UserDetails);
+                }
+            }
+            return GetUserDetailsList;
         }
 
         private IList<GetPassword> FillGetPasswordModel(DataTable dtUsers)
