@@ -104,6 +104,20 @@ namespace MobFix.Controllers
             return Ok(result);
         }
 
+
+
+        [HttpPost]
+        public IHttpActionResult resetPassword([FromBody]GetUser getuser)
+        {
+            var userRepo = new UserRepository();
+            var result = userRepo.resetPassword(getuser);
+            if (result == null || result.Count == 0)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
         [HttpPost]
         public IHttpActionResult UpdateUserStatus([FromBody]User user)
         {
